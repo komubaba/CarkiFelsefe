@@ -183,64 +183,76 @@
             transform: translateX(-50%);
         }
 
-      @media screen and (max-width: 900px) {
-    body { 
-        overflow: hidden; 
-        touch-action: none; 
-    }
+    @media screen and (max-width: 900px) {
+    body { overflow: hidden; position: fixed; width: 100%; height: 100%; }
 
     #game-container {
-        display: none; /* JS ile açılacak */
+        display: block !important; /* Grid yerine serbest yerleşim */
         position: fixed;
-        width: 100vh !important; /* Ekran boyunu genişlik yaptık */
-        height: 100vw !important; /* Ekran enini boy yaptık */
+        width: 100vh !important;
+        height: 100vw !important;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%) rotate(90deg);
-        grid-template-columns: 1fr !important; /* Yan yana değil alt alta dizdik */
-        grid-template-rows: 1fr 1fr; /* Çark üstte, panel altta */
-        gap: 0 !important;
-        padding: 0 !important;
+        background: var(--bg-color);
     }
 
-    /* --- ÜST KISIM: ÇARK --- */
+    /* --- 1. ÇARKIN KONUMU (ÜST KISIM) --- */
     .wheel-section {
-        height: 100%;
-        justify-content: center;
-        /* MANUEL AYAR: Çarkı büyütüp küçültmek için scale kullanın */
-        transform: scale(0.8); 
+        position: absolute;
+        top: 2%;            /* Yukarıdan boşluk (Değiştirebilirsin) */
+        left: 50%;
+        transform: translateX(-50%) scale(0.65); /* Çarkı buradan küçült/büyüt */
+        width: 100%;
+        height: auto;
     }
 
-    #wheel-canvas {
-        width: 320px !important;
-        height: 320px !important;
+    #wheel-canvas { 
+        width: 320px !important; 
+        height: 320px !important; 
     }
 
-    /* --- ALT KISIM: KONTROL PANELİ --- */
+    /* --- 2. PANELİN KONUMU (ALT KISIM) --- */
     .display-section {
-        height: 100%;
-        padding: 10px 20px;
-        box-sizing: border-box;
-        justify-content: flex-start;
-        /* MANUEL AYAR: Paneli bütün olarak ölçeklendirir */
-        transform: scale(0.85); 
-        transform-origin: center top;
-        gap: 8px !important;
+        position: absolute;
+        bottom: 2%;         /* Alttan boşluk (Değiştirebilirsin) */
+        left: 50%;
+        transform: translateX(-50%) scale(0.75); /* Paneli buradan küçült/büyüt */
+        width: 95%;         /* Panelin genişliği */
+        gap: 5px !important;
     }
 
-    /* Taşmayı önlemek için yazı ve kutu boyutları */
-    #puzzle-board { padding: 10px !important; min-height: 100px !important; }
-    .letter-box { width: 28px !important; height: 38px !important; font-size: 1.2rem !important; }
-    .alpha-key { padding: 6px 8px !important; font-size: 0.8rem !important; }
-    #game-status-box { font-size: 1rem !important; padding: 10px !important; margin: 0; }
-    #category-info { font-size: 1.2rem !important; padding: 10px !important; }
-    #players-row { gap: 5px !important; }
-    .player-card { padding: 5px !important; }
-    .score { font-size: 1.2rem !important; }
+    /* --- 3. SIKIŞTIRMA AYARLARI (TAŞMAYI ÖNLER) --- */
+    #puzzle-board { 
+        padding: 10px !important; 
+        min-height: 80px !important; 
+        gap: 5px !important;
+    }
     
-    /* Mobilde gereksiz alanları temizle */
-    #spin-btn { margin-top: 10px !important; padding: 10px 40px !important; }
-    .guess-area { padding: 5px !important; }
+    .letter-box { 
+        width: 24px !important; 
+        height: 32px !important; 
+        font-size: 0.9rem !important; 
+    }
+
+    #alphabet { gap: 4px !important; }
+    
+    .alpha-key { 
+        padding: 5px 8px !important; 
+        font-size: 0.75rem !important; 
+    }
+
+    #players-row { 
+        margin-top: 5px;
+        gap: 5px !important; 
+    }
+
+    .player-card { padding: 5px !important; }
+    .score { font-size: 1rem !important; }
+    #game-status-box { font-size: 0.9rem !important; padding: 8px !important; margin-bottom: 5px; }
+    #category-info { font-size: 1rem !important; padding: 8px !important; }
+    #spin-btn { margin-top: 5px !important; }
+    .guess-area { margin-top: 5px; }
     .footer-credit { display: none; }
 }
     </style>
@@ -519,6 +531,7 @@
     </script>
 </body>
 </html>
+
 
 
 
