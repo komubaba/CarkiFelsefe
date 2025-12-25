@@ -45,7 +45,7 @@
             box-shadow: 0 0 50px var(--accent-color);
         }
 
-        #modal-msg { font-size: 1.5rem; margin-bottom: 25px; font-weight: bold; }
+        #modal-msg { font-size: 1.5rem; margin-bottom: 25px; font-weight: bold; white-space: pre-line; }
 
         #setup-screen {
             position: fixed;
@@ -67,7 +67,6 @@
         
         button { padding: 15px 30px; cursor: pointer; background: var(--accent-color); color: white; border: none; border-radius: 8px; font-weight: bold; font-size: 1.1rem; }
 
-        /* OYUN ALANI DÜZENİ */
         #game-container {
             display: none;
             width: 100%;
@@ -86,7 +85,41 @@
 
         .display-section { display: flex; flex-direction: column; gap: 20px; width: 100%; }
 
-        /* YENİLENEN KATEGORİ PANELİ */
+        #unit-display {
+            background: #16213e;
+            color: #ffd700;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 10px;
+            border: 1px solid #ffd700;
+        }
+
+        #game-status-box {
+            background: linear-gradient(45deg, #e94560, #a21b3c);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 900;
+            font-size: 1.4rem;
+            min-height: 40px;
+            box-shadow: 0 0 20px rgba(233, 69, 96, 0.5);
+            border: 3px solid rgba(255,255,255,0.3);
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            letter-spacing: 1px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
         #category-info { 
             background: #0f3460; 
             padding: 20px; 
@@ -135,48 +168,43 @@
         .score { font-size: 2rem; color: #ffd700; font-weight: bold; }
         
         .footer-credit {
-    position: absolute;
-    bottom: 20px;
-    font-size: 0.85rem;
-    color: rgba(255, 255, 255, 0.3); /* Şık ve hafif şeffaf */
-    letter-spacing: 2px;
-    font-weight: 300;
-    text-transform: uppercase;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    padding-top: 10px;
-    
-    /* TEK SATIR OLMASINI SAĞLAYAN DEĞİŞİKLİKLER */
-    width: auto;             /* Sabit genişliği kaldır */
-    white-space: nowrap;     /* Yazının alt satıra geçmesini engelle */
-    left: 50%;               /* Sayfaya göre ortala */
-    transform: translateX(-50%); /* Tam merkezlemek için geri çek */
-    }
-
-
-    /* BURAYA YAPIŞTIRACAKSIN: */
-    @media screen and (max-width: 600px) and (orientation: portrait) {
-        body { overflow: hidden; }
-        #game-container {
-            display: grid !important;
-            transform: rotate(90deg);
-            transform-origin: center;
-            width: 100vh !important;
-            height: 100vw !important;
-            position: fixed;
-            top: 50%;
+            position: absolute;
+            bottom: 20px;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.3);
+            letter-spacing: 2px;
+            font-weight: 300;
+            text-transform: uppercase;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 10px;
+            width: auto;
+            white-space: nowrap;
             left: 50%;
-            margin-top: -50vw;
-            margin-left: -50vh;
-            grid-template-columns: 320px 1fr !important;
-            gap: 20px !important;
-            padding: 10px !important;
+            transform: translateX(-50%);
         }
-        #wheel-canvas { width: 300px !important; height: 300px !important; }
-        .letter-box { width: 25px !important; height: 35px !important; font-size: 1rem !important; }
-        .alpha-key { padding: 5px 7px !important; font-size: 0.7rem !important; }
-        #setup-screen { transform: rotate(90deg); width: 100vh; height: 100vw; }
-    }
 
+        @media screen and (max-width: 600px) and (orientation: portrait) {
+            body { overflow: hidden; }
+            #game-container {
+                display: grid !important;
+                transform: rotate(90deg);
+                transform-origin: center;
+                width: 100vh !important;
+                height: 100vw !important;
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                margin-top: -50vw;
+                margin-left: -50vh;
+                grid-template-columns: 320px 1fr !important;
+                gap: 20px !important;
+                padding: 10px !important;
+            }
+            #wheel-canvas { width: 300px !important; height: 300px !important; }
+            .letter-box { width: 25px !important; height: 35px !important; font-size: 1rem !important; }
+            .alpha-key { padding: 5px 7px !important; font-size: 0.7rem !important; }
+            #setup-screen { transform: rotate(90deg); width: 100vh; height: 100vw; }
+        }
     </style>
 </head>
 <body>
@@ -199,10 +227,11 @@
                 <option value="U2">ÜNİTE 2: MANTIK VE ARGÜMANTASYON</option>
                 <option value="U3">ÜNİTE 3: VARLIK FELSEFESİ</option>
                 <option value="U4">ÜNİTE 4: BİLGİ FELSEFESİ</option>
-                <option value="U5">ÜNİTE 6: SANAT FELSEFESİ</option>
-                <option value="U5">ÜNİTE 7: SİYASET FELSEFESİ</option>
-                <option value="U5">ÜNİTE 8: DİN FELSEFESİ</option>
-                <option value="U5">ÜNİTE 9: BİLİM FELSEFESİ</option>
+                <option value="U5">ÜNİTE 5: AHLAK FELSEFESİ</option>
+                <option value="U6">ÜNİTE 6: SANAT FELSEFESİ</option>
+                <option value="U7">ÜNİTE 7: SİYASET FELSEFESİ</option>
+                <option value="U8">ÜNİTE 8: DİN FELSEFESİ</option>
+                <option value="U9">ÜNİTE 9: BİLİM FELSEFESİ</option>
             </select>
         </div>
         <div class="input-group">
@@ -223,7 +252,12 @@
         </div>
 
         <div class="display-section">
+            <div style="text-align: center;">
+                <div id="unit-display">YÜKLENİYOR...</div>
+            </div>
+            <div id="game-status-box">OYUN BAŞLATILDI...</div>
             <div id="category-info">
+                <span id="type-label">ARANAN:</span>
                 <span id="type-value">YÜKLENİYOR...</span>
             </div>
             <div id="puzzle-board"></div>
@@ -245,88 +279,43 @@
     <audio id="snd-wrong" src="yanlış cevap.mp3"></audio>
 
     <script>
-        // SORU LİSTESİ - BURADAN TİPLERİ DEĞİŞTİREBİLİRSİN
         const unitQuestions = {
-    U1: [ // 1. ÜNİTE: FELSEFENİN DOĞASI
-        {type:"KAVRAM", text:"PHYSIS"}, 
-        {type:"FİLOZOF", text:"THALES"},
-        {type:"KAVRAM", text:"ARKHE"},
-        {type:"FELSEFİ AKIM", text:"RASYONALİZM"},
-        {type:"FİLOZOF", text:"ANAXIMANDROS"}
-    ],
-    U2: [ // 2. ÜNİTE: MANTIK VE ARGÜMANTASYON
-        {type:"KAVRAM", text:"TÜMDENGELİM"}, 
-        {type:"KAVRAM", text:"ÖNCÜL"},
-        {type:"KAVRAM", text:"GEÇERLİLİK"},
-        {type:"KAVRAM", text:"TÜMEVARIM"},
-        {type:"FİLOZOF SÖZÜ", text:"BİLEN DENETLER"}
-    ],
-    U3: [ // 3. ÜNİTE: VARLIK FELSEFESİ
-        {type:"KAVRAM", text:"ONTOLOJİ"}, 
-        {type:"FELSEFİ AKIM", text:"MATERYALİZM"},
-        {type:"FELSEFİ AKIM", text:"İDEALİZM"},
-        {type:"FİLOZOF", text:"PLATON"},
-        {type:"KAVRAM", text:"METAFİZİK"}
-    ],
-    U4: [ // 4. ÜNİTE: BİLGİ FELSEFESİ
-        {type:"KAVRAM", text:"EPİSTEMOLOJİ"}, 
-        {type:"FELSEFİ AKIM", text:"EMPİRİZM"},
-        {type:"FELSEFİ AKIM", text:"KRİTİSİZM"},
-        {type:"FİLOZOF", text:"IMMANUEL KANT"},
-        {type:"FİLOZOF SÖZÜ", text:"BİLGİ GÜÇTÜR"}
-    ],
-    U5: [ // 5. ÜNİTE: AHLAK FELSEFESİ
-        {type:"KAVRAM", text:"ETİK"},
-        {type:"KAVRAM", text:"ERDEM"},
-        {type:"FELSEFİ AKIM", text:"HEDONİZM"},
-        {type:"FİLOZOF", text:"ARİSTOTELES"},
-        {type:"KAVRAM", text:"ÖDEV AHLAKI"}
-    ],
-    U6: [ // 6. ÜNİTE: ESTETİK VE SANAT
-        {type:"KAVRAM", text:"ESTETİK"},
-        {type:"KAVRAM", text:"MİMESİS"},
-        {type:"KAVRAM", text:"YÜCE"},
-        {type:"FELSEFİ AKIM", text:"EKSPRESYONİZM"},
-        {type:"KAVRAM", text:"GÜZELLİK İDESİ"}
-    ],
-    U7: [ // 7. ÜNİTE: SİYASET FELSEFESİ
-        {type:"KAVRAM", text:"ÜTOPYA"},
-        {type:"KAVRAM", text:"MEŞRUİYET"},
-        {type:"KAVRAM", text:"EGEMENLİK"},
-        {type:"FİLOZOF", text:"THOMAS HOBBES"},
-        {type:"FİLOZOF SÖZÜ", text:"İNSAN İNSANIN KURDUDUR"}
-    ],
-    U8: [ // 8. ÜNİTE: DİN FELSEFESİ
-        {type:"KAVRAM", text:"TEOLOJİ"},
-        {type:"FELSEFİ AKIM", text:"TEİZM"},
-        {type:"FELSEFİ AKIM", text:"AGNOSTİSİZM"},
-        {type:"FELSEFİ AKIM", text:"PANTEİZM"},
-        {type:"KAVRAM", text:"FİDEİZM"}
-    ],
-    U9: [ // 9. ÜNİTE: BİLİM FELSEFESİ
-        {type:"KAVRAM", text:"PARADİGMA"},
-        {type:"KAVRAM", text:"FALSIFIKASYON"},
-        {type:"FİLOZOF", text:"THOMAS KUHN"},
-        {type:"FİLOZOF", text:"KARL POPPER"},
-        {type:"KAVRAM", text:"OLGUSALLIK"}
-    ]
-};
+            U1: [{type:"KAVRAM", text:"PHYSIS"}, {type:"FİLOZOF", text:"THALES"}, {type:"KAVRAM", text:"ARKHE"}, {type:"FELSEFİ AKIM", text:"RASYONALİZM"}, {type:"FİLOZOF", text:"ANAXIMANDROS"}],
+            U2: [{type:"KAVRAM", text:"TÜMDENGELİM"}, {type:"KAVRAM", text:"ÖNCÜL"}, {type:"KAVRAM", text:"GEÇERLİLİK"}, {type:"KAVRAM", text:"TÜMEVARIM"}, {type:"FİLOZOF SÖZÜ", text:"BİLEN DENETLER"}],
+            U3: [{type:"KAVRAM", text:"ONTOLOJİ"}, {type:"FELSEFİ AKIM", text:"MATERYALİZM"}, {type:"FELSEFİ AKIM", text:"İDEALİZM"}, {type:"FİLOZOF", text:"PLATON"}, {type:"KAVRAM", text:"METAFİZİK"}],
+            U4: [{type:"KAVRAM", text:"EPİSTEMOLOJİ"}, {type:"FELSEFİ AKIM", text:"EMPİRİZM"}, {type:"FELSEFİ AKIM", text:"KRİTİSİZM"}, {type:"FİLOZOF", text:"IMMANUEL KANT"}, {type:"FİLOZOF SÖZÜ", text:"BİLGİ GÜÇTÜR"}],
+            U5: [{type:"KAVRAM", text:"ETİK"}, {type:"KAVRAM", text:"ERDEM"}, {type:"FELSEFİ AKIM", text:"HEDONİZM"}, {type:"FİLOZOF", text:"ARİSTOTELES"}, {type:"KAVRAM", text:"ÖDEV AHLAKI"}],
+            U6: [{type:"KAVRAM", text:"ESTETİK"}, {type:"KAVRAM", text:"MİMESİS"}, {type:"KAVRAM", text:"YÜCE"}, {type:"FELSEFİ AKIM", text:"EKSPRESYONİZM"}, {type:"KAVRAM", text:"GÜZELLİK İDESİ"}],
+            U7: [{type:"KAVRAM", text:"ÜTOPYA"}, {type:"KAVRAM", text:"MEŞRUİYET"}, {type:"KAVRAM", text:"EGEMENLİK"}, {type:"FİLOZOF", text:"THOMAS HOBBES"}, {type:"FİLOZOF SÖZÜ", text:"İNSAN İNSANIN KURDUDUR"}],
+            U8: [{type:"KAVRAM", text:"TEOLOJİ"}, {type:"FELSEFİ AKIM", text:"TEİZM"}, {type:"FELSEFİ AKIM", text:"AGNOSTİSİZM"}, {type:"FELSEFİ AKIM", text:"PANTEİZM"}, {type:"KAVRAM", text:"FİDEİZM"}],
+            U9: [{type:"KAVRAM", text:"PARADİGMA"}, {type:"KAVRAM", text:"FALSIFIKASYON"}, {type:"FİLOZOF", text:"THOMAS KUHN"}, {type:"FİLOZOF", text:"KARL POPPER"}, {type:"KAVRAM", text:"OLGUSALLIK"}]
+        };
 
         const segments = [200, 500, "İFLAS", 300, 800, "PAS", 400, 1000, 150, 600, "İFLAS", 700];
         const colors = ["#1abc9c", "#2ecc71", "#34495e", "#3498db", "#9b59b6", "#f1c40f", "#e67e22", "#e74c3c", "#ecf0f1", "#95a5a6", "#2c3e50", "#d35400"];
         
         let players = [{score: 0}, {score: 0}, {score: 0}];
         let currentPlayer = 0, currentValue = 0, currentQuestion = null, rotation = 0;
-        let revealedLetters = [], currentRound = 1, maxRounds = 3, canSpin = true, canGuess = false;
+        let revealedLetters = [], currentRound = 1, maxRounds = 3, canSpin = true, canGuess = false, currentQuestionsList = [];
 
         function showMessage(msg) {
-            document.getElementById("modal-msg").innerText = msg;
-            document.getElementById("custom-modal").style.display = "flex";
+            const statusBox = document.getElementById("game-status-box");
+            if (statusBox) {
+                statusBox.innerText = msg;
+                statusBox.style.backgroundColor = "#ff4d4d"; 
+                setTimeout(() => { statusBox.style.backgroundColor = "#e94560"; }, 500);
+            }
+            if (msg.includes("BİTTİ") || msg.includes("KAZANAN")) {
+                document.getElementById("modal-msg").innerText = msg;
+                document.getElementById("custom-modal").style.display = "flex";
+            }
         }
 
         function closeModal() {
             document.getElementById("custom-modal").style.display = "none";
-            if(document.getElementById("modal-msg").innerText.includes("BİTTİ")) location.reload();
+            if(document.querySelector("#custom-modal button").innerText === "ANA MENÜYE DÖN") {
+                location.reload(); 
+            }
         }
 
         function drawWheel() {
@@ -343,12 +332,15 @@
         }
 
         function startGame() {
+            const unitSelect = document.getElementById("unit-select");
+            document.getElementById("unit-display").innerText = unitSelect.options[unitSelect.selectedIndex].text;
             for(let i=0; i<3; i++) {
                 players[i].name = document.getElementById(`p${i+1}`).value || `Oyuncu ${i+1}`;
+                players[i].score = 0;
                 document.getElementById(`name-${i}`).innerText = players[i].name;
             }
             maxRounds = parseInt(document.getElementById("total-rounds").value);
-            currentQuestionsList = unitQuestions[document.getElementById("unit-select").value];
+            currentQuestionsList = unitQuestions[unitSelect.value];
             document.getElementById("setup-screen").style.display = "none";
             document.getElementById("game-container").style.display = "grid";
             drawWheel(); loadQuestion(); updateUI();
@@ -358,7 +350,6 @@
         function loadQuestion() {
             currentQuestion = currentQuestionsList[Math.floor(Math.random() * currentQuestionsList.length)];
             revealedLetters = [];
-            // SADECE TİP GÖSTERİMİ
             document.getElementById("type-value").innerText = currentQuestion.type;
             initAlphabet(); renderBoard();
         }
@@ -382,7 +373,8 @@
         function spinWheel() {
             if (!canSpin) return;
             canSpin = false;
-            document.getElementById("snd-spin").play();
+            const audio = document.getElementById("snd-spin");
+            if(audio) audio.play();
             const spinAdd = Math.floor(Math.random() * 360) + 2160; 
             rotation += spinAdd;
             const canvas = document.getElementById("wheel-canvas");
@@ -390,12 +382,10 @@
             canvas.style.transform = `rotate(${rotation}deg)`;
             
             setTimeout(() => {
-                document.getElementById("snd-spin").pause();
-                document.getElementById("snd-spin").currentTime = 0;
+                if(audio) { audio.pause(); audio.currentTime = 0; }
                 const actualDeg = rotation % 360;
                 const index = Math.floor(((360 - actualDeg + 270) % 360) / 30);
                 const result = segments[index];
-                
                 if (result === "İFLAS") {
                     players[currentPlayer].score = 0; updateUI();
                     showMessage("İFLAS!"); setTimeout(nextTurn, 1500);
@@ -412,14 +402,14 @@
             if (!canGuess) return;
             document.querySelectorAll(".alpha-key").forEach(k => { if(k.innerText === char) k.classList.add("used"); });
             if (currentQuestion.text.includes(char)) {
-                document.getElementById("snd-correct").play();
+                const snd = document.getElementById("snd-correct"); if(snd) snd.play();
                 revealedLetters.push(char);
                 const count = currentQuestion.text.split(char).length - 1;
                 players[currentPlayer].score += (currentValue * count);
                 renderBoard(); canGuess = false; canSpin = true; updateUI();
                 if (checkWin()) return;
             } else {
-                document.getElementById("snd-wrong").play();
+                const snd = document.getElementById("snd-wrong"); if(snd) snd.play();
                 showMessage(`Seçilen Harf Yok!`); setTimeout(nextTurn, 1200);
             }
         }
@@ -434,12 +424,12 @@
             const val = document.getElementById("solve-input").value.toUpperCase();
             if(!val) return;
             if(val === currentQuestion.text) {
-                document.getElementById("snd-correct").play();
+                const snd = document.getElementById("snd-correct"); if(snd) snd.play();
                 players[currentPlayer].score += 2000;
                 currentQuestion.text.split("").forEach(c => { if(c !== " ") revealedLetters.push(c); });
                 renderBoard(); updateUI(); checkWin();
             } else {
-                document.getElementById("snd-wrong").play();
+                const snd = document.getElementById("snd-wrong"); if(snd) snd.play();
                 showMessage("Yanlış!"); setTimeout(nextTurn, 1200);
             }
             document.getElementById("solve-input").value = "";
@@ -461,12 +451,16 @@
             const won = cleanText.split("").every(c => revealedLetters.includes(c));
             if (won) {
                 if(currentRound >= maxRounds) {
-                    const win = players.reduce((p, c) => (p.score > c.score) ? p : c);
-                    showMessage(`OYUN BİTTİ! KAZANAN: ${win.name}`);
+                    let winner = players[0];
+                    players.forEach(p => { if(p.score > winner.score) winner = p; });
+                    const finalMsg = `🏆 OYUN BİTTİ! 🏆\n\nTEBRİKLER ${winner.name.toUpperCase()}!\nToplam Puan: ${winner.score}`;
+                    document.getElementById("modal-msg").innerText = finalMsg;
+                    document.querySelector("#custom-modal button").innerText = "ANA MENÜYE DÖN";
+                    document.getElementById("custom-modal").style.display = "flex";
                 } else {
                     currentRound++;
-                    showMessage(`Tebrikler!`);
-                    setTimeout(loadQuestion, 1500);
+                    showMessage(`Tebrikler! ${currentRound}. Tur Başlıyor...`);
+                    setTimeout(loadQuestion, 2000);
                 }
                 return true;
             }
