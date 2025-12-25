@@ -145,50 +145,58 @@
         .player-card.active { border-color: var(--accent-color); background: #1f2d52; }
         .score { font-size: 1.2rem; color: #ffd700; font-weight: bold; }
 
-       @media screen and (max-height: 500px) {
-    /* Giriş ekranındaki boşlukları daralt */
-    #setup-screen {
-        justify-content: flex-start !important;
-        padding-top: 10px !important;
-        gap: 5px !important;
-        overflow-y: auto; /* Gerektiğinde kaydırılabilir yap */
+      @media screen and (max-height: 500px) {
+    /* Oyun alanını yukarıya doğru optimize et */
+    #game-container {
+        grid-template-columns: 260px 1fr !important;
+        padding: 5px 15px !important;
+        gap: 15px !important;
     }
 
-    #setup-screen h1 { 
-        font-size: 1.4rem !important; 
-        margin: 5px 0 !important; 
-    }
-
-    .input-group { margin-bottom: 2px !important; }
-
-    input, select { 
+    /* Çark boyutunu ekran yüksekliğine göre sabitle */
+    #wheel-canvas { 
         width: 240px !important; 
-        padding: 6px !important; 
+        height: 240px !important; 
+    }
+
+    /* Sağ paneldeki öğeleri küçülterek sığdır */
+    .display-section { 
+        gap: 4px !important; 
+        justify-content: flex-start !important;
+    }
+
+    #game-status-box { padding: 6px !important; font-size: 0.9rem !important; margin: 0 !important; }
+    #category-info { padding: 5px !important; }
+    #type-value { font-size: 1rem !important; }
+
+    /* Harf kutularını küçült */
+    .letter-box { 
+        width: 22px !important; 
+        height: 30px !important; 
         font-size: 0.9rem !important; 
     }
 
-    /* Başlat butonunu yukarı çek ve belirginleştir */
-    #setup-screen button { 
-        padding: 8px 20px !important; 
-        margin-top: 5px !important;
-        font-size: 1rem !important;
+    /* Klavyeyi daha toplu hale getir */
+    #alphabet { 
+        gap: 3px !important; 
+        max-width: 100%;
+    }
+    .alpha-key { 
+        padding: 4px 6px !important; 
+        font-size: 0.7rem !important; 
+        min-width: 20px;
+        text-align: center;
     }
 
-    /* Oyun içindeki çarkı ve paneli yan ekran için küçült */
-    #game-container {
-        grid-template-columns: 240px 1fr !important;
-        padding: 5px !important;
-        gap: 10px !important;
-    }
+    /* Tahmin alanını daralt */
+    .guess-area { margin-top: 2px !important; }
+    .guess-area input { padding: 5px !important; font-size: 0.8rem !important; }
+    .guess-area button { padding: 5px 10px !important; font-size: 0.8rem !important; }
 
-    #wheel-canvas { 
-        width: 220px !important; 
-        height: 220px !important; 
-    }
-
-    .display-section { scale: 0.8; transform-origin: top center; }
-    
-    .footer-credit { display: none !important; }
+    /* En alttaki oyuncu kartlarını küçült */
+    #players-row { gap: 5px !important; }
+    .player-card { padding: 4px !important; font-size: 0.7rem !important; }
+    .score { font-size: 0.9rem !important; }
 }
     </style>
 </head>
@@ -430,4 +438,5 @@
     </script>
 </body>
 </html>
+
 
