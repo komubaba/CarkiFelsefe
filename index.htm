@@ -57,34 +57,34 @@
             justify-content: center;
             align-items: center;
             gap: 15px;
-            padding: 20px;
         }
 
         .input-group { display: flex; flex-direction: column; align-items: center; width: 100%; }
         input, select { 
             padding: 12px; border-radius: 8px; border: 2px solid #333; 
-            width: 320px; max-width: 90%; font-size: 1rem; background: white; color: #333;
+            width: 320px; font-size: 1rem; background: white; color: #333;
         }
         
         button { padding: 15px 30px; cursor: pointer; background: var(--accent-color); color: white; border: none; border-radius: 8px; font-weight: bold; font-size: 1.1rem; }
 
+        /* MASAÜSTÜ ORİJİNAL YAPI */
         #game-container {
             display: none;
             width: 100%;
-            max-width: 1400px;
-            height: 95vh;
+            height: 100vh;
+            padding: 0 300px;
+            box-sizing: border-box;
             grid-template-columns: 650px 1fr; 
-            gap: 50px; 
+            gap: 300px; 
             align-items: center;
             justify-content: center;
-            padding: 20px;
         }
 
         .wheel-section { display: flex; flex-direction: column; align-items: center; position: relative; }
-        #wheel-canvas { width: 600px; height: 600px; border-radius: 50%; border: 15px solid #333; box-shadow: 0 0 40px rgba(0,0,0,0.8); }
+        #wheel-canvas { width: 650px; height: 650px; border-radius: 50%; border: 15px solid #333; box-shadow: 0 0 40px rgba(0,0,0,0.8); }
         #pointer { position: absolute; top: -30px; z-index: 100; width: 50px; fill: #ffd700; transform: rotate(180deg); }
 
-        .display-section { display: flex; flex-direction: column; gap: 15px; width: 100%; overflow-y: auto; }
+        .display-section { display: flex; flex-direction: column; gap: 20px; width: 100%; }
 
         #unit-display {
             background: #16213e;
@@ -94,21 +94,24 @@
             font-size: 0.9rem;
             font-weight: bold;
             display: inline-block;
-            margin-bottom: 5px;
+            margin-bottom: 10px;
             border: 1px solid #ffd700;
         }
 
         #game-status-box {
             background: linear-gradient(45deg, #e94560, #a21b3c);
             color: white;
-            padding: 15px;
+            padding: 20px;
             border-radius: 12px;
             text-align: center;
             font-weight: 900;
-            font-size: 1.2rem;
+            font-size: 1.4rem;
+            min-height: 40px;
             box-shadow: 0 0 20px rgba(233, 69, 96, 0.5);
             border: 3px solid rgba(255,255,255,0.3);
+            margin-bottom: 15px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            letter-spacing: 1px;
             animation: pulse 2s infinite;
         }
 
@@ -120,73 +123,82 @@
 
         #category-info { 
             background: #0f3460; 
-            padding: 15px; 
+            padding: 20px; 
             border-radius: 12px; 
             text-align: center; 
-            font-size: 1.4rem; 
+            font-size: 1.8rem; 
             border-left: 10px solid var(--accent-color);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
         
-        #type-label { color: #8892b0; font-size: 0.8rem; display: block; margin-bottom: 5px; font-weight: bold; letter-spacing: 2px;}
+        #type-label { color: #8892b0; font-size: 1rem; display: block; margin-bottom: 5px; font-weight: bold; letter-spacing: 2px;}
         #type-value { color: var(--accent-color); font-weight: 900; text-transform: uppercase; }
 
         #puzzle-board {
-            background: #16213e; padding: 20px; border-radius: 15px;
+            background: #16213e; padding: 30px; border-radius: 15px;
             display: flex; flex-wrap: wrap; justify-content: center;
-            gap: 10px; min-height: 120px; align-content: center;
+            gap: 15px; min-height: 200px; align-content: center;
         }
 
-        .word-group { display: flex; gap: 5px; white-space: nowrap; margin-bottom: 10px; }
+        .word-group { display: flex; gap: 8px; white-space: nowrap; margin-bottom: 15px; }
 
         .letter-box {
-            width: 40px; height: 55px; background: #fff; color: #000;
+            width: 50px; height: 65px; background: #fff; color: #000;
             display: flex; justify-content: center; align-items: center;
-            font-size: 1.8rem; font-weight: bold; border-radius: 6px;
+            font-size: 2.2rem; font-weight: bold; border-radius: 6px;
             visibility: hidden;
         }
         .letter-box.revealed { visibility: visible; animation: flip 0.6s; }
         .letter-box.hidden { visibility: visible; background: #2c3e50; color: transparent; border: 2px solid #444; }
 
-        #alphabet { display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; }
-        .alpha-key { padding: 10px 14px; background: #533483; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 1rem; }
+        @keyframes flip { from { transform: rotateY(90deg); } to { transform: rotateY(0); } }
+
+        #alphabet { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+        .alpha-key { padding: 12px 18px; background: #533483; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 1.1rem; }
         .alpha-key.used { background: #111; color: #444; pointer-events: none; opacity: 0.5; }
 
         .guess-area {
             display: flex; justify-content: center; gap: 10px; 
-            padding: 10px; background: rgba(255,255,255,0.05); border-radius: 10px;
+            padding: 15px; background: rgba(255,255,255,0.05); border-radius: 10px;
         }
-        .guess-area input { flex: 1; padding: 10px; border-radius: 5px; border: none; font-size: 1rem; }
+        .guess-area input { flex: 1; max-width: 400px; padding: 12px; border-radius: 5px; border: none; font-size: 1.1rem; }
 
-        #players-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-        .player-card { background: var(--panel-color); padding: 10px; border-radius: 12px; text-align: center; border-bottom: 5px solid transparent; font-size: 0.8rem;}
-        .player-card.active { border-color: var(--accent-color); background: #1f2d52; transform: scale(1.05); }
-        .score { font-size: 1.2rem; color: #ffd700; font-weight: bold; }
+        #players-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+        .player-card { background: var(--panel-color); padding: 15px; border-radius: 12px; text-align: center; border-bottom: 5px solid transparent; }
+        .player-card.active { border-color: var(--accent-color); background: #1f2d52; transform: scale(1.05); transition: 0.3s; }
+        .score { font-size: 2rem; color: #ffd700; font-weight: bold; }
         
         .footer-credit {
-            position: absolute; bottom: 10px; font-size: 0.7rem; color: rgba(255, 255, 255, 0.3);
-            width: 100%; text-align: center; pointer-events: none;
+            position: absolute; bottom: 20px; font-size: 0.85rem; color: rgba(255, 255, 255, 0.3);
+            letter-spacing: 2px; font-weight: 300; text-transform: uppercase;
+            border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 10px;
+            width: auto; white-space: nowrap; left: 50%; transform: translateX(-50%);
         }
 
-        /* MOBİL DİKEY DÜZENLEME */
+        /* MOBİL DÜZENLEME (Sadece Telefonlar İçin) */
         @media screen and (max-width: 900px) {
-            body { overflow-y: auto; height: auto; align-items: flex-start; }
+            body { overflow-y: auto; height: auto; display: block; }
             #game-container {
                 display: none; 
                 grid-template-columns: 1fr;
                 grid-template-rows: auto auto;
-                gap: 20px;
-                height: auto;
+                gap: 10px;
                 padding: 10px;
-                margin-top: 10px;
+                height: auto;
+                width: 100%;
             }
-            .display-section { order: 1; } /* Paneli yukarı al */
-            .wheel-section { order: 2; margin-bottom: 50px; } /* Çarkı aşağı al */
+            .display-section { order: 1; gap: 10px; } /* Panel Üstte */
+            .wheel-section { order: 2; margin-top: 20px; padding-bottom: 40px;} /* Çark Altta */
             
             #wheel-canvas { width: 320px !important; height: 320px !important; border-width: 8px; }
-            #pointer { width: 30px; top: -15px; }
-            .letter-box { width: 30px; height: 40px; font-size: 1.2rem; }
+            #pointer { width: 35px; top: -18px; }
+            .letter-box { width: 30px; height: 42px; font-size: 1.3rem; }
             .alpha-key { padding: 8px 10px; font-size: 0.9rem; }
-            #setup-screen h1 { font-size: 2.5rem; }
+            #game-status-box { font-size: 1.1rem; padding: 10px; }
+            #category-info { font-size: 1.2rem; padding: 10px; }
+            #puzzle-board { padding: 15px; min-height: 100px; }
+            .score { font-size: 1.2rem; }
+            .player-card { padding: 8px; }
         }
     </style>
 </head>
@@ -200,7 +212,7 @@
     </div>
 
     <div id="setup-screen">
-        <h1 style="color: var(--accent-color); margin-bottom: 10px;">Çark-ı Felsefe</h1>
+        <h1 style="font-size: 4rem; color: var(--accent-color); margin-bottom: 20px;">Çark-ı Felsefe</h1>
         <div class="input-group"><input type="text" id="p1" placeholder="1. Yarışmacı" value="Farabi"></div>
         <div class="input-group"><input type="text" id="p2" placeholder="2. Yarışmacı" value="İbn Sina"></div>
         <div class="input-group"><input type="text" id="p3" placeholder="3. Yarışmacı" value="Gazali"></div>
@@ -224,14 +236,14 @@
             </select>
         </div>
         <button onclick="startGame()">OYUNU BAŞLAT</button>
-        <div class="footer-credit" style="position:relative; margin-top:20px;">Tasarlayan: Veysel ÖZSALMAN</div>
+        <div class="footer-credit">Tasarlayan: Veysel ÖZSALMAN</div>
     </div>
 
     <div id="game-container">
         <div class="wheel-section">
             <svg id="pointer" viewBox="0 0 100 100"><path d="M50 0 L100 100 L0 100 Z"/></svg>
             <canvas id="wheel-canvas" width="650" height="650"></canvas>
-            <button id="spin-btn" style="margin-top:15px; width: 100%;" onclick="spinWheel()">ÇARKI ÇEVİR</button>
+            <button id="spin-btn" style="margin-top:25px; padding: 15px 70px;" onclick="spinWheel()">ÇARKI ÇEVİR</button>
         </div>
 
         <div class="display-section">
@@ -246,7 +258,7 @@
             <div id="puzzle-board"></div>
             <div id="alphabet"></div>
             <div class="guess-area">
-                <input type="text" id="solve-input" placeholder="Tahmin...">
+                <input type="text" id="solve-input" placeholder="Kelime Tahmini...">
                 <button onclick="solvePuzzle()">TAHMİN ET</button>
             </div>
             <div id="players-row">
@@ -326,7 +338,7 @@
             maxRounds = parseInt(document.getElementById("total-rounds").value);
             currentQuestionsList = unitQuestions[unitSelect.value];
             document.getElementById("setup-screen").style.display = "none";
-            document.getElementById("game-container").style.display = (window.innerWidth <= 900) ? "block" : "grid";
+            document.getElementById("game-container").style.display = (window.innerWidth <= 900) ? "grid" : "grid";
             drawWheel(); loadQuestion(); updateUI();
             setTimeout(() => showMessage(`Sıra: ${players[0].name}`), 600);
         }
@@ -429,7 +441,6 @@
         function initAlphabet() {
             const container = document.getElementById("alphabet");
             container.innerHTML = "";
-            // SADECE SESSİZ HARFLER
             const consonants = "BCÇDFGĞHJKLMNPRSŞTVYZ";
             consonants.split("").forEach(char => {
                 const span = document.createElement("div");
