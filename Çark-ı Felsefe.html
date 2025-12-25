@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Çark-ı Felsefe</title>
+    <style>
+        :root {
+            --bg-color: #1a1a2e;
+            --panel-color: #16213e;
+            --accent-color: #e94560;
+            --text-color: #ffffff;
+            --modal-bg: rgba(0, 0, 0, 0.9);
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        #custom-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: var(--modal-bg);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #modal-content {
+            background: var(--panel-color);
+            padding: 40px;
+            border-radius: 20px;
+            border: 3px solid var(--accent-color);
+            text-align: center;
+            max-width: 450px;
+            box-shadow: 0 0 50px var(--accent-color);
+        }
+
+        #modal-msg { font-size: 1.5rem; margin-bottom: 25px; font-weight: bold; }
+
+        #setup-screen {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle, #16213e, #1a1a2e);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .input-group { display: flex; flex-direction: column; align-items: center; width: 100%; }
+        input, select { 
+            padding: 12px; border-radius: 8px; border: 2px solid #333; 
+            width: 320px; font-size: 1rem; background: white; color: #333;
+        }
+        
+        button { padding: 15px 30px; cursor: pointer; background: var(--accent-color); color: white; border: none; border-radius: 8px; font-weight: bold; font-size: 1.1rem; }
+
+        /* OYUN ALANI DÜZENİ */
+        #game-container {
+            display: none;
+            width: 100%;
+            height: 100vh;
+            padding: 0 300px;
+            box-sizing: border-box;
+            grid-template-columns: 650px 1fr; 
+            gap: 300px; 
+            align-items: center;
+            justify-content: center;
+        }
+
+        .wheel-section { display: flex; flex-direction: column; align-items: center; position: relative; }
+        #wheel-canvas { width: 650px; height: 650px; border-radius: 50%; border: 15px solid #333; box-shadow: 0 0 40px rgba(0,0,0,0.8); }
+        #pointer { position: absolute; top: -30px; z-index: 100; width: 50px; fill: #ffd700; transform: rotate(180deg); }
+
+        .display-section { display: flex; flex-direction: column; gap: 20px; width: 100%; }
+
+        /* YENİLENEN KATEGORİ PANELİ */
+        #category-info { 
+            background: #0f3460; 
+            padding: 20px; 
+            border-radius: 12px; 
+            text-align: center; 
+            font-size: 1.8rem; 
+            border-left: 10px solid var(--accent-color);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        #type-label { color: #8892b0; font-size: 1rem; display: block; margin-bottom: 5px; font-weight: bold; letter-spacing: 2px;}
+        #type-value { color: var(--accent-color); font-weight: 900; text-transform: uppercase; }
+
+        #puzzle-board {
+            background: #16213e; padding: 30px; border-radius: 15px;
+            display: flex; flex-wrap: wrap; justify-content: center;
+            gap: 15px; min-height: 200px; align-content: center;
+        }
+
+        .word-group { display: flex; gap: 8px; white-space: nowrap; margin-bottom: 15px; }
+
+        .letter-box {
+            width: 50px; height: 65px; background: #fff; color: #000;
+            display: flex; justify-content: center; align-items: center;
+            font-size: 2.2rem; font-weight: bold; border-radius: 6px;
+            visibility: hidden;
+        }
+        .letter-box.revealed { visibility: visible; animation: flip 0.6s; }
+        .letter-box.hidden { visibility: visible; background: #2c3e50; color: transparent; border: 2px solid #444; }
+
+        @keyframes flip { from { transform: rotateY(90deg); } to { transform: rotateY(0); } }
+
+        #alphabet { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+        .alpha-key { padding: 12px 18px; background: #533483; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 1.1rem; }
+        .alpha-key.used { background: #111; color: #444; pointer-events: none; opacity: 0.5; }
+
+        .guess-area {
+            display: flex; justify-content: center; gap: 10px; 
+            padding: 15px; background: rgba(255,255,255,0.05); border-radius: 10px;
+        }
+        .guess-area input { flex: 1; max-width: 400px; padding: 12px; border-radius: 5px; border: none; font-size: 1.1rem; }
+
+        #players-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+        .player-card { background: var(--panel-color); padding: 15px; border-radius: 12px; text-align: center; border-bottom: 5px solid transparent; }
+        .player-card.active { border-color: var(--accent-color); background: #1f2d52; transform: scale(1.05); transition: 0.3s; }
+        .score { font-size: 2rem; color: #ffd700; font-weight: bold; }
+        
+        .footer-credit {
+    position: absolute;
+    bottom: 20px;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.3); /* Şık ve hafif şeffaf */
+    letter-spacing: 2px;
+    font-weight: 300;
+    text-transform: uppercase;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 10px;
+    
+    /* TEK SATIR OLMASINI SAĞLAYAN DEĞİŞİKLİKLER */
+    width: auto;             /* Sabit genişliği kaldır */
+    white-space: nowrap;     /* Yazının alt satıra geçmesini engelle */
+    left: 50%;               /* Sayfaya göre ortala */
+    transform: translateX(-50%); /* Tam merkezlemek için geri çek */
+    }
+
+
+    /* BURAYA YAPIŞTIRACAKSIN: */
+    @media screen and (max-width: 600px) and (orientation: portrait) {
+        body { overflow: hidden; }
+        #game-container {
+            display: grid !important;
+            transform: rotate(90deg);
+            transform-origin: center;
+            width: 100vh !important;
+            height: 100vw !important;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            margin-top: -50vw;
+            margin-left: -50vh;
+            grid-template-columns: 320px 1fr !important;
+            gap: 20px !important;
+            padding: 10px !important;
+        }
+        #wheel-canvas { width: 300px !important; height: 300px !important; }
+        .letter-box { width: 25px !important; height: 35px !important; font-size: 1rem !important; }
+        .alpha-key { padding: 5px 7px !important; font-size: 0.7rem !important; }
+        #setup-screen { transform: rotate(90deg); width: 100vh; height: 100vw; }
+    }
+
+    </style>
+</head>
+<body>
+
+    <div id="custom-modal">
+        <div id="modal-content">
+            <p id="modal-msg"></p>
+            <button onclick="closeModal()">TAMAM</button>
+        </div>
+    </div>
+
+    <div id="setup-screen">
+        <h1 style="font-size: 4rem; color: var(--accent-color); margin-bottom: 20px;">Çark-ı Felsefe</h1>
+        <div class="input-group"><input type="text" id="p1" placeholder="1. Yarışmacı" value="Farabi"></div>
+        <div class="input-group"><input type="text" id="p2" placeholder="2. Yarışmacı" value="İbn Sina"></div>
+        <div class="input-group"><input type="text" id="p3" placeholder="3. Yarışmacı" value="Gazali"></div>
+        <div class="input-group">
+            <select id="unit-select">
+                <option value="U1">ÜNİTE 1: FELSEFENİN DOĞASI</option>
+                <option value="U2">ÜNİTE 2: MANTIK VE ARGÜMANTASYON</option>
+                <option value="U3">ÜNİTE 3: VARLIK FELSEFESİ</option>
+                <option value="U4">ÜNİTE 4: BİLGİ FELSEFESİ</option>
+                <option value="U5">ÜNİTE 6: SANAT FELSEFESİ</option>
+                <option value="U5">ÜNİTE 7: SİYASET FELSEFESİ</option>
+                <option value="U5">ÜNİTE 8: DİN FELSEFESİ</option>
+                <option value="U5">ÜNİTE 9: BİLİM FELSEFESİ</option>
+            </select>
+        </div>
+        <div class="input-group">
+            <select id="total-rounds">
+                <option value="3">3 TUR</option>
+                <option value="5">5 TUR</option>
+            </select>
+        </div>
+        <button onclick="startGame()">OYUNU BAŞLAT</button>
+        <div class="footer-credit">Tasarlayan: Veysel ÖZSALMAN</div>
+    </div>
+
+    <div id="game-container">
+        <div class="wheel-section">
+            <svg id="pointer" viewBox="0 0 100 100"><path d="M50 0 L100 100 L0 100 Z"/></svg>
+            <canvas id="wheel-canvas" width="650" height="650"></canvas>
+            <button id="spin-btn" style="margin-top:25px; padding: 15px 70px;" onclick="spinWheel()">ÇARKI ÇEVİR</button>
+        </div>
+
+        <div class="display-section">
+            <div id="category-info">
+                <span id="type-value">YÜKLENİYOR...</span>
+            </div>
+            <div id="puzzle-board"></div>
+            <div id="alphabet"></div>
+            <div class="guess-area">
+                <input type="text" id="solve-input" placeholder="Kelime Tahmini...">
+                <button onclick="solvePuzzle()">TAHMİN ET</button>
+            </div>
+            <div id="players-row">
+                <div class="player-card" id="card-0"><div id="name-0"></div><div class="score" id="score-0">0</div></div>
+                <div class="player-card" id="card-1"><div id="name-1"></div><div class="score" id="score-1">0</div></div>
+                <div class="player-card" id="card-2"><div id="name-2"></div><div class="score" id="score-2">0</div></div>
+            </div>
+        </div>
+    </div>
+
+    <audio id="snd-spin" src="çark.mp3"></audio>
+    <audio id="snd-correct" src="doğru cevap.mp3"></audio>
+    <audio id="snd-wrong" src="yanlış cevap.mp3"></audio>
+
+    <script>
+        // SORU LİSTESİ - BURADAN TİPLERİ DEĞİŞTİREBİLİRSİN
+        const unitQuestions = {
+    U1: [ // 1. ÜNİTE: FELSEFENİN DOĞASI
+        {type:"KAVRAM", text:"PHYSIS"}, 
+        {type:"FİLOZOF", text:"THALES"},
+        {type:"KAVRAM", text:"ARKHE"},
+        {type:"FELSEFİ AKIM", text:"RASYONALİZM"},
+        {type:"FİLOZOF", text:"ANAXIMANDROS"}
+    ],
+    U2: [ // 2. ÜNİTE: MANTIK VE ARGÜMANTASYON
+        {type:"KAVRAM", text:"TÜMDENGELİM"}, 
+        {type:"KAVRAM", text:"ÖNCÜL"},
+        {type:"KAVRAM", text:"GEÇERLİLİK"},
+        {type:"KAVRAM", text:"TÜMEVARIM"},
+        {type:"FİLOZOF SÖZÜ", text:"BİLEN DENETLER"}
+    ],
+    U3: [ // 3. ÜNİTE: VARLIK FELSEFESİ
+        {type:"KAVRAM", text:"ONTOLOJİ"}, 
+        {type:"FELSEFİ AKIM", text:"MATERYALİZM"},
+        {type:"FELSEFİ AKIM", text:"İDEALİZM"},
+        {type:"FİLOZOF", text:"PLATON"},
+        {type:"KAVRAM", text:"METAFİZİK"}
+    ],
+    U4: [ // 4. ÜNİTE: BİLGİ FELSEFESİ
+        {type:"KAVRAM", text:"EPİSTEMOLOJİ"}, 
+        {type:"FELSEFİ AKIM", text:"EMPİRİZM"},
+        {type:"FELSEFİ AKIM", text:"KRİTİSİZM"},
+        {type:"FİLOZOF", text:"IMMANUEL KANT"},
+        {type:"FİLOZOF SÖZÜ", text:"BİLGİ GÜÇTÜR"}
+    ],
+    U5: [ // 5. ÜNİTE: AHLAK FELSEFESİ
+        {type:"KAVRAM", text:"ETİK"},
+        {type:"KAVRAM", text:"ERDEM"},
+        {type:"FELSEFİ AKIM", text:"HEDONİZM"},
+        {type:"FİLOZOF", text:"ARİSTOTELES"},
+        {type:"KAVRAM", text:"ÖDEV AHLAKI"}
+    ],
+    U6: [ // 6. ÜNİTE: ESTETİK VE SANAT
+        {type:"KAVRAM", text:"ESTETİK"},
+        {type:"KAVRAM", text:"MİMESİS"},
+        {type:"KAVRAM", text:"YÜCE"},
+        {type:"FELSEFİ AKIM", text:"EKSPRESYONİZM"},
+        {type:"KAVRAM", text:"GÜZELLİK İDESİ"}
+    ],
+    U7: [ // 7. ÜNİTE: SİYASET FELSEFESİ
+        {type:"KAVRAM", text:"ÜTOPYA"},
+        {type:"KAVRAM", text:"MEŞRUİYET"},
+        {type:"KAVRAM", text:"EGEMENLİK"},
+        {type:"FİLOZOF", text:"THOMAS HOBBES"},
+        {type:"FİLOZOF SÖZÜ", text:"İNSAN İNSANIN KURDUDUR"}
+    ],
+    U8: [ // 8. ÜNİTE: DİN FELSEFESİ
+        {type:"KAVRAM", text:"TEOLOJİ"},
+        {type:"FELSEFİ AKIM", text:"TEİZM"},
+        {type:"FELSEFİ AKIM", text:"AGNOSTİSİZM"},
+        {type:"FELSEFİ AKIM", text:"PANTEİZM"},
+        {type:"KAVRAM", text:"FİDEİZM"}
+    ],
+    U9: [ // 9. ÜNİTE: BİLİM FELSEFESİ
+        {type:"KAVRAM", text:"PARADİGMA"},
+        {type:"KAVRAM", text:"FALSIFIKASYON"},
+        {type:"FİLOZOF", text:"THOMAS KUHN"},
+        {type:"FİLOZOF", text:"KARL POPPER"},
+        {type:"KAVRAM", text:"OLGUSALLIK"}
+    ]
+};
+
+        const segments = [200, 500, "İFLAS", 300, 800, "PAS", 400, 1000, 150, 600, "İFLAS", 700];
+        const colors = ["#1abc9c", "#2ecc71", "#34495e", "#3498db", "#9b59b6", "#f1c40f", "#e67e22", "#e74c3c", "#ecf0f1", "#95a5a6", "#2c3e50", "#d35400"];
+        
+        let players = [{score: 0}, {score: 0}, {score: 0}];
+        let currentPlayer = 0, currentValue = 0, currentQuestion = null, rotation = 0;
+        let revealedLetters = [], currentRound = 1, maxRounds = 3, canSpin = true, canGuess = false;
+
+        function showMessage(msg) {
+            document.getElementById("modal-msg").innerText = msg;
+            document.getElementById("custom-modal").style.display = "flex";
+        }
+
+        function closeModal() {
+            document.getElementById("custom-modal").style.display = "none";
+            if(document.getElementById("modal-msg").innerText.includes("BİTTİ")) location.reload();
+        }
+
+        function drawWheel() {
+            const ctx = document.getElementById("wheel-canvas").getContext("2d");
+            const arc = (Math.PI * 2) / segments.length;
+            ctx.clearRect(0, 0, 650, 650);
+            segments.forEach((seg, i) => {
+                ctx.beginPath(); ctx.fillStyle = colors[i]; ctx.moveTo(325, 325);
+                ctx.arc(325, 325, 325, i * arc, (i + 1) * arc); ctx.fill();
+                ctx.save(); ctx.translate(325, 325); ctx.rotate(i * arc + arc / 2);
+                ctx.textAlign = "right"; ctx.fillStyle = "white"; ctx.font = "bold 26px Arial";
+                ctx.fillText(seg, 305, 10); ctx.restore();
+            });
+        }
+
+        function startGame() {
+            for(let i=0; i<3; i++) {
+                players[i].name = document.getElementById(`p${i+1}`).value || `Oyuncu ${i+1}`;
+                document.getElementById(`name-${i}`).innerText = players[i].name;
+            }
+            maxRounds = parseInt(document.getElementById("total-rounds").value);
+            currentQuestionsList = unitQuestions[document.getElementById("unit-select").value];
+            document.getElementById("setup-screen").style.display = "none";
+            document.getElementById("game-container").style.display = "grid";
+            drawWheel(); loadQuestion(); updateUI();
+            setTimeout(() => showMessage(`Sıra: ${players[0].name}`), 600);
+        }
+
+        function loadQuestion() {
+            currentQuestion = currentQuestionsList[Math.floor(Math.random() * currentQuestionsList.length)];
+            revealedLetters = [];
+            // SADECE TİP GÖSTERİMİ
+            document.getElementById("type-value").innerText = currentQuestion.type;
+            initAlphabet(); renderBoard();
+        }
+
+        function renderBoard() {
+            const board = document.getElementById("puzzle-board");
+            board.innerHTML = "";
+            currentQuestion.text.split(" ").forEach(word => {
+                const wordDiv = document.createElement("div");
+                wordDiv.className = "word-group";
+                word.split("").forEach(char => {
+                    const div = document.createElement("div");
+                    div.className = revealedLetters.includes(char) ? "letter-box revealed" : "letter-box hidden";
+                    div.innerText = char;
+                    wordDiv.appendChild(div);
+                });
+                board.appendChild(wordDiv);
+            });
+        }
+
+        function spinWheel() {
+            if (!canSpin) return;
+            canSpin = false;
+            document.getElementById("snd-spin").play();
+            const spinAdd = Math.floor(Math.random() * 360) + 2160; 
+            rotation += spinAdd;
+            const canvas = document.getElementById("wheel-canvas");
+            canvas.style.transition = "transform 4s cubic-bezier(0.15, 0, 0.15, 1)";
+            canvas.style.transform = `rotate(${rotation}deg)`;
+            
+            setTimeout(() => {
+                document.getElementById("snd-spin").pause();
+                document.getElementById("snd-spin").currentTime = 0;
+                const actualDeg = rotation % 360;
+                const index = Math.floor(((360 - actualDeg + 270) % 360) / 30);
+                const result = segments[index];
+                
+                if (result === "İFLAS") {
+                    players[currentPlayer].score = 0; updateUI();
+                    showMessage("İFLAS!"); setTimeout(nextTurn, 1500);
+                } else if (result === "PAS") {
+                    showMessage("PAS!"); setTimeout(nextTurn, 1500);
+                } else {
+                    currentValue = result; canGuess = true;
+                    showMessage(`${result} PUAN!`);
+                }
+            }, 4100);
+        }
+
+        function handleGuess(char) {
+            if (!canGuess) return;
+            document.querySelectorAll(".alpha-key").forEach(k => { if(k.innerText === char) k.classList.add("used"); });
+            if (currentQuestion.text.includes(char)) {
+                document.getElementById("snd-correct").play();
+                revealedLetters.push(char);
+                const count = currentQuestion.text.split(char).length - 1;
+                players[currentPlayer].score += (currentValue * count);
+                renderBoard(); canGuess = false; canSpin = true; updateUI();
+                if (checkWin()) return;
+            } else {
+                document.getElementById("snd-wrong").play();
+                showMessage(`Seçilen Harf Yok!`); setTimeout(nextTurn, 1200);
+            }
+        }
+
+        function nextTurn() {
+            currentPlayer = (currentPlayer + 1) % 3;
+            canGuess = false; canSpin = true;
+            updateUI(); showMessage(`Sıra: ${players[currentPlayer].name}`);
+        }
+
+        function solvePuzzle() {
+            const val = document.getElementById("solve-input").value.toUpperCase();
+            if(!val) return;
+            if(val === currentQuestion.text) {
+                document.getElementById("snd-correct").play();
+                players[currentPlayer].score += 2000;
+                currentQuestion.text.split("").forEach(c => { if(c !== " ") revealedLetters.push(c); });
+                renderBoard(); updateUI(); checkWin();
+            } else {
+                document.getElementById("snd-wrong").play();
+                showMessage("Yanlış!"); setTimeout(nextTurn, 1200);
+            }
+            document.getElementById("solve-input").value = "";
+        }
+
+        function initAlphabet() {
+            const container = document.getElementById("alphabet");
+            container.innerHTML = "";
+            "ABCÇDEFGĞHIİJKLMNOÖPRSŞTUÜVYZ".split("").forEach(char => {
+                const span = document.createElement("div");
+                span.className = "alpha-key"; span.innerText = char;
+                span.onclick = () => handleGuess(char);
+                container.appendChild(span);
+            });
+        }
+
+        function checkWin() {
+            const cleanText = currentQuestion.text.replace(/ /g, "");
+            const won = cleanText.split("").every(c => revealedLetters.includes(c));
+            if (won) {
+                if(currentRound >= maxRounds) {
+                    const win = players.reduce((p, c) => (p.score > c.score) ? p : c);
+                    showMessage(`OYUN BİTTİ! KAZANAN: ${win.name}`);
+                } else {
+                    currentRound++;
+                    showMessage(`Tebrikler!`);
+                    setTimeout(loadQuestion, 1500);
+                }
+                return true;
+            }
+            return false;
+        }
+
+        function updateUI() {
+            for(let i=0; i<3; i++) {
+                document.getElementById(`score-${i}`).innerText = players[i].score;
+                document.getElementById(`card-${i}`).className = (i === currentPlayer) ? "player-card active" : "player-card";
+            }
+        }
+    </script>
+</body>
+</html>
