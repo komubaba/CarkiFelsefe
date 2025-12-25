@@ -22,9 +22,8 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            width: 100vw;
             overflow: hidden;
-            position: fixed;
+            touch-action: manipulation;
         }
 
         #custom-modal {
@@ -39,62 +38,64 @@
 
         #modal-content {
             background: var(--panel-color);
-            padding: 20px;
+            padding: 40px;
             border-radius: 20px;
             border: 3px solid var(--accent-color);
             text-align: center;
-            max-width: 80%;
+            max-width: 450px;
             box-shadow: 0 0 50px var(--accent-color);
         }
 
-        #modal-msg { font-size: 1.2rem; margin-bottom: 20px; font-weight: bold; white-space: pre-line; }
+        #modal-msg { font-size: 1.5rem; margin-bottom: 25px; font-weight: bold; white-space: pre-line; }
 
         #setup-screen {
             position: fixed;
             inset: 0;
             background: radial-gradient(circle, #16213e, #1a1a2e);
-            z-index: 1000;
+            z-index: 100;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            gap: 10px;
+            gap: 15px;
             padding: 20px;
         }
 
         .input-group { display: flex; flex-direction: column; align-items: center; width: 100%; }
         input, select { 
-            padding: 10px; border-radius: 8px; border: 2px solid #333; 
-            width: 280px; font-size: 0.9rem; background: white; color: #333;
+            padding: 12px; border-radius: 8px; border: 2px solid #333; 
+            width: 320px; font-size: 1rem; background: white; color: #333;
+            max-width: 90%;
         }
         
-        button { padding: 12px 25px; cursor: pointer; background: var(--accent-color); color: white; border: none; border-radius: 8px; font-weight: bold; font-size: 1rem; }
+        button { padding: 15px 30px; cursor: pointer; background: var(--accent-color); color: white; border: none; border-radius: 8px; font-weight: bold; font-size: 1.1rem; }
 
         #game-container {
             display: none;
-            width: 100vw;
+            width: 100%;
             height: 100vh;
-            padding: 10px;
+            padding: 0 50px;
             box-sizing: border-box;
             grid-template-columns: 1fr 1.2fr; 
-            gap: 20px; 
+            gap: 30px; 
             align-items: center;
             justify-content: center;
         }
 
-        .wheel-section { display: flex; flex-direction: column; align-items: center; position: relative; height: 100%; justify-content: center; }
-        #wheel-canvas { width: 85vh; height: 85vh; max-width: 450px; max-height: 450px; border-radius: 50%; border: 10px solid #333; box-shadow: 0 0 30px rgba(0,0,0,0.8); }
-        #pointer { position: absolute; top: 10%; z-index: 100; width: 40px; fill: #ffd700; transform: rotate(180deg); }
+        .wheel-section { display: flex; flex-direction: column; align-items: center; position: relative; }
+        #wheel-canvas { width: 450px; height: 450px; border-radius: 50%; border: 10px solid #333; box-shadow: 0 0 40px rgba(0,0,0,0.8); }
+        #pointer { position: absolute; top: -20px; z-index: 100; width: 40px; fill: #ffd700; transform: rotate(180deg); }
 
-        .display-section { display: flex; flex-direction: column; gap: 10px; width: 100%; height: 95vh; overflow-y: auto; padding-right: 5px; }
+        .display-section { display: flex; flex-direction: column; gap: 10px; width: 100%; max-height: 95vh; overflow-y: auto; padding-right: 5px; }
 
         #unit-display {
             background: #16213e;
             color: #ffd700;
-            padding: 3px 12px;
-            border-radius: 15px;
+            padding: 5px 15px;
+            border-radius: 20px;
             font-size: 0.8rem;
             font-weight: bold;
+            display: inline-block;
             border: 1px solid #ffd700;
         }
 
@@ -102,28 +103,36 @@
             background: linear-gradient(45deg, #e94560, #a21b3c);
             color: white;
             padding: 10px;
-            border-radius: 10px;
+            border-radius: 12px;
             text-align: center;
             font-weight: 900;
             font-size: 1.1rem;
-            box-shadow: 0 0 15px rgba(233, 69, 96, 0.4);
+            box-shadow: 0 0 20px rgba(233, 69, 96, 0.5);
             border: 2px solid rgba(255,255,255,0.3);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
         }
 
         #category-info { 
             background: #0f3460; 
             padding: 10px; 
-            border-radius: 10px; 
+            border-radius: 12px; 
             text-align: center; 
             font-size: 1.2rem; 
             border-left: 6px solid var(--accent-color);
         }
         
         #type-label { color: #8892b0; font-size: 0.8rem; display: block; font-weight: bold; letter-spacing: 1px;}
-        #type-value { color: var(--accent-color); font-weight: 900; text-transform: uppercase; font-size: 1.1rem; }
+        #type-value { color: var(--accent-color); font-weight: 900; text-transform: uppercase; }
 
         #puzzle-board {
-            background: #16213e; padding: 15px; border-radius: 10px;
+            background: #16213e; padding: 15px; border-radius: 15px;
             display: flex; flex-wrap: wrap; justify-content: center;
             gap: 8px; min-height: 100px; align-content: center;
         }
@@ -131,7 +140,7 @@
         .word-group { display: flex; gap: 5px; white-space: nowrap; margin-bottom: 8px; }
 
         .letter-box {
-            width: 30px; height: 40px; background: #fff; color: #000;
+            width: 35px; height: 45px; background: #fff; color: #000;
             display: flex; justify-content: center; align-items: center;
             font-size: 1.4rem; font-weight: bold; border-radius: 4px;
             visibility: hidden;
@@ -139,53 +148,77 @@
         .letter-box.revealed { visibility: visible; animation: flip 0.6s; }
         .letter-box.hidden { visibility: visible; background: #2c3e50; color: transparent; border: 1px solid #444; }
 
-        #alphabet { display: flex; flex-wrap: wrap; gap: 4px; justify-content: center; }
-        .alpha-key { padding: 6px 10px; background: #533483; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 0.8rem; }
+        @keyframes flip { from { transform: rotateY(90deg); } to { transform: rotateY(0); } }
+
+        #alphabet { display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; }
+        .alpha-key { padding: 8px 12px; background: #533483; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.9rem; }
         .alpha-key.used { background: #111; color: #444; pointer-events: none; opacity: 0.5; }
 
         .guess-area {
             display: flex; justify-content: center; gap: 5px; 
-            padding: 8px; background: rgba(255,255,255,0.05); border-radius: 8px;
+            padding: 10px; background: rgba(255,255,255,0.05); border-radius: 10px;
         }
-        .guess-area input { flex: 1; padding: 8px; border-radius: 5px; border: none; font-size: 0.9rem; width: 100px; }
+        .guess-area input { flex: 1; padding: 8px; border-radius: 5px; border: none; font-size: 0.9rem; }
+        .guess-area button { padding: 8px 15px; font-size: 0.9rem; }
 
-        #players-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+        #players-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
         .player-card { background: var(--panel-color); padding: 8px; border-radius: 10px; text-align: center; border-bottom: 3px solid transparent; }
-        .player-card.active { border-color: var(--accent-color); background: #1f2d52; transform: scale(1.02); }
-        .player-card div:first-child { font-size: 0.7rem; }
+        .player-card.active { border-color: var(--accent-color); background: #1f2d52; transform: scale(1.05); transition: 0.3s; }
         .score { font-size: 1.2rem; color: #ffd700; font-weight: bold; }
         
         .footer-credit {
             position: absolute;
-            bottom: 5px;
+            bottom: 10px;
             font-size: 0.6rem;
             color: rgba(255, 255, 255, 0.3);
+            letter-spacing: 1px;
             text-transform: uppercase;
-            left: 50%;
-            transform: translateX(-50%);
+            width: 100%;
+            text-align: center;
         }
 
-        /* Mobil Yatay Mod Optimizasyonu */
-        @media screen and (max-height: 500px) {
-            #wheel-canvas { width: 70vh; height: 70vh; }
-            #setup-screen h1 { font-size: 2rem !important; margin: 5px !important; }
-            .input-group input, .input-group select { padding: 5px; width: 220px; font-size: 0.8rem; }
-            button { padding: 8px 15px; font-size: 0.8rem; }
-            #puzzle-board { padding: 10px; }
-            .letter-box { width: 25px; height: 32px; font-size: 1.1rem; }
-        }
-
-        /* Dikey modda uyarı veya otomatik döndürme simülasyonu CSS ile zorlanamaz ama düzeni korur */
-        @media screen and (orientation: portrait) {
-            #game-container {
-                display: flex !important;
-                flex-direction: column !important;
-                overflow-y: auto;
+        /* MOBİL OPTİMİZASYON (YATAY ÇEVİRME) */
+        @media screen and (max-width: 1024px) {
+            body { overflow: hidden; }
+            
+            #setup-screen {
+                padding: 10px;
+                gap: 8px;
             }
-            #wheel-canvas { width: 80vw; height: 80vw; }
-            .display-section { height: auto; overflow: visible; }
+            #setup-screen h1 { font-size: 2rem !important; }
+            #setup-screen input, #setup-screen select { padding: 8px; width: 250px; font-size: 0.9rem; }
+            
+            #game-container {
+                display: none;
+                grid-template-columns: 320px 1fr;
+                gap: 15px;
+                padding: 10px;
+            }
+            
+            #wheel-canvas { width: 300px; height: 300px; }
+            .letter-box { width: 28px; height: 38px; font-size: 1.1rem; }
+            .alpha-key { padding: 6px 8px; font-size: 0.75rem; }
+            #game-status-box { font-size: 0.9rem; padding: 5px; }
+            #category-info { font-size: 1rem; padding: 5px; }
         }
 
+        /* Telefonlar dikey tutulduğunda ekranı yan çevirmeye zorla veya uyar */
+        @media screen and (max-width: 600px) and (orientation: portrait) {
+            #game-container, #setup-screen {
+                transform: rotate(90deg);
+                transform-origin: center;
+                width: 100vh;
+                height: 100vw;
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                margin-top: -50vw;
+                margin-left: -50vh;
+            }
+            #custom-modal {
+                transform: rotate(90deg);
+            }
+        }
     </style>
 </head>
 <body>
@@ -198,7 +231,7 @@
     </div>
 
     <div id="setup-screen">
-        <h1 style="font-size: 3rem; color: var(--accent-color); margin-bottom: 10px; text-align: center;">Çark-ı Felsefe</h1>
+        <h1 style="font-size: 4rem; color: var(--accent-color); margin-bottom: 10px;">Çark-ı Felsefe</h1>
         <div class="input-group"><input type="text" id="p1" placeholder="1. Yarışmacı" value="Farabi"></div>
         <div class="input-group"><input type="text" id="p2" placeholder="2. Yarışmacı" value="İbn Sina"></div>
         <div class="input-group"><input type="text" id="p3" placeholder="3. Yarışmacı" value="Gazali"></div>
@@ -229,7 +262,7 @@
         <div class="wheel-section">
             <svg id="pointer" viewBox="0 0 100 100"><path d="M50 0 L100 100 L0 100 Z"/></svg>
             <canvas id="wheel-canvas" width="650" height="650"></canvas>
-            <button id="spin-btn" style="margin-top:15px; width: 80%;" onclick="spinWheel()">ÇEVİR</button>
+            <button id="spin-btn" style="margin-top:15px; padding: 10px 40px;" onclick="spinWheel()">ÇARKI ÇEVİR</button>
         </div>
 
         <div class="display-section">
@@ -244,13 +277,13 @@
             <div id="puzzle-board"></div>
             <div id="alphabet"></div>
             <div class="guess-area">
-                <input type="text" id="solve-input" placeholder="Kelime Tahmini...">
-                <button onclick="solvePuzzle()">TAHMİN</button>
+                <input type="text" id="solve-input" placeholder="Tahmin...">
+                <button onclick="solvePuzzle()">TAHMİN ET</button>
             </div>
             <div id="players-row">
-                <div class="player-card" id="card-0"><div id="name-0"></div><div class="score" id="score-0">0</div></div>
-                <div class="player-card" id="card-1"><div id="name-1"></div><div class="score" id="score-1">0</div></div>
-                <div class="player-card" id="card-2"><div id="name-2"></div><div class="score" id="score-2">0</div></div>
+                <div class="player-card" id="card-0"><div id="name-0" style="font-size:0.7rem"></div><div class="score" id="score-0">0</div></div>
+                <div class="player-card" id="card-1"><div id="name-1" style="font-size:0.7rem"></div><div class="score" id="score-1">0</div></div>
+                <div class="player-card" id="card-2"><div id="name-2" style="font-size:0.7rem"></div><div class="score" id="score-2">0</div></div>
             </div>
         </div>
     </div>
@@ -300,7 +333,8 @@
         }
 
         function drawWheel() {
-            const ctx = document.getElementById("wheel-canvas").getContext("2d");
+            const canvas = document.getElementById("wheel-canvas");
+            const ctx = canvas.getContext("2d");
             const arc = (Math.PI * 2) / segments.length;
             ctx.clearRect(0, 0, 650, 650);
             segments.forEach((seg, i) => {
@@ -422,7 +456,8 @@
         function initAlphabet() {
             const container = document.getElementById("alphabet");
             container.innerHTML = "";
-            "ABCÇDEFGĞHIİJKLMNOÖPRSŞTUÜVYZ".split("").forEach(char => {
+            // SADECE SESSİZ HARFLER (İsteğine göre güncellendi)
+            "BCÇDFGĞHJKLMNPRSŞTVYZ".split("").forEach(char => {
                 const span = document.createElement("div");
                 span.className = "alpha-key"; span.innerText = char;
                 span.onclick = () => handleGuess(char);
