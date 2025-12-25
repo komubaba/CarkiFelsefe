@@ -348,10 +348,15 @@
         }
 
         function loadQuestion() {
-            currentQuestion = currentQuestionsList[Math.floor(Math.random() * currentQuestionsList.length)];
+            // Soruları her seçimde tamamen rastgele hale getirmek için karıştırma işlemi
+            if (currentQuestionsList.length > 0) {
+                currentQuestion = currentQuestionsList[Math.floor(Math.random() * currentQuestionsList.length)];
+            }
+            
             revealedLetters = [];
             document.getElementById("type-value").innerText = currentQuestion.type;
-            initAlphabet(); renderBoard();
+            initAlphabet(); 
+            renderBoard();
         }
 
         function renderBoard() {
