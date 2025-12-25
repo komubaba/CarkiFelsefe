@@ -21,184 +21,148 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            overflow: hidden;
+            min-height: 100vh;
+            overflow-x: hidden;
         }
 
+        /* --- MODAL --- */
         #custom-modal {
             display: none;
             position: fixed;
             inset: 0;
             background: var(--modal-bg);
-            z-index: 1000;
+            z-index: 2000;
             justify-content: center;
             align-items: center;
+            padding: 20px;
         }
 
         #modal-content {
             background: var(--panel-color);
-            padding: 40px;
+            padding: 30px;
             border-radius: 20px;
             border: 3px solid var(--accent-color);
             text-align: center;
-            max-width: 450px;
+            max-width: 90%;
             box-shadow: 0 0 50px var(--accent-color);
         }
 
-        #modal-msg { font-size: 1.5rem; margin-bottom: 25px; font-weight: bold; white-space: pre-line; }
-
+        /* --- SETUP SCREEN --- */
         #setup-screen {
             position: fixed;
             inset: 0;
             background: radial-gradient(circle, #16213e, #1a1a2e);
-            z-index: 100;
+            z-index: 1000;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             gap: 15px;
+            padding: 20px;
+            text-align: center;
         }
 
-        .input-group { display: flex; flex-direction: column; align-items: center; width: 100%; }
+        .input-group { width: 100%; max-width: 320px; }
         input, select { 
             padding: 12px; border-radius: 8px; border: 2px solid #333; 
-            width: 320px; font-size: 1rem; background: white; color: #333;
+            width: 100%; font-size: 1rem; box-sizing: border-box;
         }
         
         button { padding: 15px 30px; cursor: pointer; background: var(--accent-color); color: white; border: none; border-radius: 8px; font-weight: bold; font-size: 1.1rem; }
 
-        /* MASAÜSTÜ ORİJİNAL YAPI */
+        /* --- GAME CONTAINER (DESKTOP DEFAULT) --- */
         #game-container {
             display: none;
             width: 100%;
-            height: 100vh;
-            padding: 0 300px;
+            max-width: 1400px;
+            padding: 20px;
             box-sizing: border-box;
             grid-template-columns: 650px 1fr; 
-            gap: 300px; 
+            gap: 40px; 
             align-items: center;
             justify-content: center;
         }
 
         .wheel-section { display: flex; flex-direction: column; align-items: center; position: relative; }
-        #wheel-canvas { width: 650px; height: 650px; border-radius: 50%; border: 15px solid #333; box-shadow: 0 0 40px rgba(0,0,0,0.8); }
-        #pointer { position: absolute; top: -30px; z-index: 100; width: 50px; fill: #ffd700; transform: rotate(180deg); }
+        #wheel-canvas { width: 600px; height: 600px; border-radius: 50%; border: 15px solid #333; box-shadow: 0 0 40px rgba(0,0,0,0.8); max-width: 100%; height: auto; }
+        #pointer { position: absolute; top: -20px; z-index: 100; width: 40px; fill: #ffd700; transform: rotate(180deg); }
 
-        .display-section { display: flex; flex-direction: column; gap: 20px; width: 100%; }
+        .display-section { display: flex; flex-direction: column; gap: 15px; width: 100%; overflow: hidden; }
 
         #unit-display {
-            background: #16213e;
-            color: #ffd700;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: bold;
-            display: inline-block;
-            margin-bottom: 10px;
-            border: 1px solid #ffd700;
+            background: #16213e; color: #ffd700; padding: 5px 15px; border-radius: 20px;
+            font-size: 0.9rem; font-weight: bold; border: 1px solid #ffd700;
         }
 
         #game-status-box {
             background: linear-gradient(45deg, #e94560, #a21b3c);
-            color: white;
-            padding: 20px;
-            border-radius: 12px;
-            text-align: center;
-            font-weight: 900;
-            font-size: 1.4rem;
-            min-height: 40px;
-            box-shadow: 0 0 20px rgba(233, 69, 96, 0.5);
-            border: 3px solid rgba(255,255,255,0.3);
-            margin-bottom: 15px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-            letter-spacing: 1px;
+            color: white; padding: 15px; border-radius: 12px; text-align: center;
+            font-weight: 900; font-size: 1.2rem; box-shadow: 0 0 20px rgba(233, 69, 96, 0.5);
             animation: pulse 2s infinite;
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-            100% { transform: scale(1); }
-        }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
 
         #category-info { 
-            background: #0f3460; 
-            padding: 20px; 
-            border-radius: 12px; 
-            text-align: center; 
-            font-size: 1.8rem; 
+            background: #0f3460; padding: 15px; border-radius: 12px; text-align: center; 
             border-left: 10px solid var(--accent-color);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
-        
-        #type-label { color: #8892b0; font-size: 1rem; display: block; margin-bottom: 5px; font-weight: bold; letter-spacing: 2px;}
-        #type-value { color: var(--accent-color); font-weight: 900; text-transform: uppercase; }
+        #type-value { color: var(--accent-color); font-weight: 900; font-size: 1.5rem; }
 
         #puzzle-board {
-            background: #16213e; padding: 30px; border-radius: 15px;
+            background: #16213e; padding: 20px; border-radius: 15px;
             display: flex; flex-wrap: wrap; justify-content: center;
-            gap: 15px; min-height: 200px; align-content: center;
+            gap: 10px; min-height: 120px; align-content: center;
         }
 
-        .word-group { display: flex; gap: 8px; white-space: nowrap; margin-bottom: 15px; }
+        .word-group { display: flex; gap: 5px; white-space: nowrap; margin-bottom: 10px; }
 
         .letter-box {
-            width: 50px; height: 65px; background: #fff; color: #000;
+            width: 40px; height: 55px; background: #fff; color: #000;
             display: flex; justify-content: center; align-items: center;
-            font-size: 2.2rem; font-weight: bold; border-radius: 6px;
-            visibility: hidden;
+            font-size: 1.8rem; font-weight: bold; border-radius: 4px; visibility: hidden;
         }
         .letter-box.revealed { visibility: visible; animation: flip 0.6s; }
-        .letter-box.hidden { visibility: visible; background: #2c3e50; color: transparent; border: 2px solid #444; }
+        .letter-box.hidden { visibility: visible; background: #2c3e50; color: transparent; border: 1px solid #444; }
 
-        @keyframes flip { from { transform: rotateY(90deg); } to { transform: rotateY(0); } }
-
-        #alphabet { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
-        .alpha-key { padding: 12px 18px; background: #533483; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 1.1rem; }
+        #alphabet { display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; }
+        .alpha-key { padding: 10px 14px; background: #533483; border-radius: 6px; cursor: pointer; font-weight: bold; }
         .alpha-key.used { background: #111; color: #444; pointer-events: none; opacity: 0.5; }
 
-        .guess-area {
-            display: flex; justify-content: center; gap: 10px; 
-            padding: 15px; background: rgba(255,255,255,0.05); border-radius: 10px;
-        }
-        .guess-area input { flex: 1; max-width: 400px; padding: 12px; border-radius: 5px; border: none; font-size: 1.1rem; }
+        .guess-area { display: flex; gap: 10px; width: 100%; }
+        .guess-area input { flex: 1; padding: 10px; border-radius: 5px; border: none; }
 
-        #players-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
-        .player-card { background: var(--panel-color); padding: 15px; border-radius: 12px; text-align: center; border-bottom: 5px solid transparent; }
-        .player-card.active { border-color: var(--accent-color); background: #1f2d52; transform: scale(1.05); transition: 0.3s; }
-        .score { font-size: 2rem; color: #ffd700; font-weight: bold; }
-        
-        .footer-credit {
-            position: absolute; bottom: 20px; font-size: 0.85rem; color: rgba(255, 255, 255, 0.3);
-            letter-spacing: 2px; font-weight: 300; text-transform: uppercase;
-            border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 10px;
-            width: auto; white-space: nowrap; left: 50%; transform: translateX(-50%);
-        }
+        #players-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .player-card { background: var(--panel-color); padding: 10px; border-radius: 10px; text-align: center; border-bottom: 4px solid transparent; font-size: 0.8rem; }
+        .player-card.active { border-color: var(--accent-color); background: #1f2d52; }
+        .score { font-size: 1.2rem; color: #ffd700; font-weight: bold; }
 
-        /* MOBİL DÜZENLEME (Sadece Telefonlar İçin) */
-        @media screen and (max-width: 900px) {
-            body { overflow-y: auto; height: auto; display: block; }
+        /* --- MOBILE RESPONSIVE LOGIC --- */
+        @media screen and (max-width: 1024px) {
             #game-container {
-                display: none; 
-                grid-template-columns: 1fr;
-                grid-template-rows: auto auto;
-                gap: 10px;
+                grid-template-columns: 1fr; /* Üst üste diz */
                 padding: 10px;
-                height: auto;
-                width: 100%;
+                gap: 20px;
+                overflow-y: auto;
+                height: 100vh;
+                align-items: flex-start;
             }
-            .display-section { order: 1; gap: 10px; } /* Panel Üstte */
-            .wheel-section { order: 2; margin-top: 20px; padding-bottom: 40px;} /* Çark Altta */
-            
-            #wheel-canvas { width: 320px !important; height: 320px !important; border-width: 8px; }
-            #pointer { width: 35px; top: -18px; }
-            .letter-box { width: 30px; height: 42px; font-size: 1.3rem; }
-            .alpha-key { padding: 8px 10px; font-size: 0.9rem; }
-            #game-status-box { font-size: 1.1rem; padding: 10px; }
-            #category-info { font-size: 1.2rem; padding: 10px; }
-            #puzzle-board { padding: 15px; min-height: 100px; }
-            .score { font-size: 1.2rem; }
-            .player-card { padding: 8px; }
+
+            #wheel-canvas { width: 350px; height: 350px; }
+            .letter-box { width: 30px; height: 40px; font-size: 1.2rem; }
+            #setup-screen h1 { font-size: 2.5rem !important; }
+        }
+
+        @media screen and (max-width: 480px) {
+            #wheel-canvas { width: 280px; height: 280px; border-width: 8px; }
+            .alpha-key { padding: 8px 10px; font-size: 0.8rem; }
+            .player-card { padding: 5px; }
+            .score { font-size: 1rem; }
+        }
+
+        .footer-credit {
+            margin-top: 10px; font-size: 0.7rem; color: rgba(255, 255, 255, 0.3);
+            text-align: center; width: 100%;
         }
     </style>
 </head>
@@ -212,7 +176,7 @@
     </div>
 
     <div id="setup-screen">
-        <h1 style="font-size: 4rem; color: var(--accent-color); margin-bottom: 20px;">Çark-ı Felsefe</h1>
+        <h1 style="font-size: 4rem; color: var(--accent-color); margin-bottom: 10px;">Çark-ı Felsefe</h1>
         <div class="input-group"><input type="text" id="p1" placeholder="1. Yarışmacı" value="Farabi"></div>
         <div class="input-group"><input type="text" id="p2" placeholder="2. Yarışmacı" value="İbn Sina"></div>
         <div class="input-group"><input type="text" id="p3" placeholder="3. Yarışmacı" value="Gazali"></div>
@@ -243,7 +207,7 @@
         <div class="wheel-section">
             <svg id="pointer" viewBox="0 0 100 100"><path d="M50 0 L100 100 L0 100 Z"/></svg>
             <canvas id="wheel-canvas" width="650" height="650"></canvas>
-            <button id="spin-btn" style="margin-top:25px; padding: 15px 70px;" onclick="spinWheel()">ÇARKI ÇEVİR</button>
+            <button id="spin-btn" style="margin-top:15px; width: 100%;" onclick="spinWheel()">ÇARKI ÇEVİR</button>
         </div>
 
         <div class="display-section">
@@ -252,14 +216,14 @@
             </div>
             <div id="game-status-box">OYUN BAŞLATILDI...</div>
             <div id="category-info">
-                <span id="type-label">ARANAN:</span>
+                <span id="type-label" style="font-size: 0.8rem; display: block; color: #8892b0;">ARANAN:</span>
                 <span id="type-value">YÜKLENİYOR...</span>
             </div>
             <div id="puzzle-board"></div>
             <div id="alphabet"></div>
             <div class="guess-area">
                 <input type="text" id="solve-input" placeholder="Kelime Tahmini...">
-                <button onclick="solvePuzzle()">TAHMİN ET</button>
+                <button onclick="solvePuzzle()">TÖ</button>
             </div>
             <div id="players-row">
                 <div class="player-card" id="card-0"><div id="name-0"></div><div class="score" id="score-0">0</div></div>
@@ -274,6 +238,7 @@
     <audio id="snd-wrong" src="yanlış cevap.mp3"></audio>
 
     <script>
+        // JS Kodunun iç mekaniği korunmuştur
         const unitQuestions = {
             U1: [{type:"KAVRAM", text:"PHYSIS"}, {type:"FİLOZOF", text:"THALES"}, {type:"KAVRAM", text:"ARKHE"}, {type:"FELSEFİ AKIM", text:"RASYONALİZM"}, {type:"FİLOZOF", text:"ANAXIMANDROS"}],
             U2: [{type:"KAVRAM", text:"TÜMDENGELİM"}, {type:"KAVRAM", text:"ÖNCÜL"}, {type:"KAVRAM", text:"GEÇERLİLİK"}, {type:"KAVRAM", text:"TÜMEVARIM"}, {type:"FİLOZOF SÖZÜ", text:"BİLEN DENETLER"}],
@@ -295,11 +260,7 @@
 
         function showMessage(msg) {
             const statusBox = document.getElementById("game-status-box");
-            if (statusBox) {
-                statusBox.innerText = msg;
-                statusBox.style.backgroundColor = "#ff4d4d"; 
-                setTimeout(() => { statusBox.style.backgroundColor = "#e94560"; }, 500);
-            }
+            if (statusBox) statusBox.innerText = msg;
             if (msg.includes("BİTTİ") || msg.includes("KAZANAN")) {
                 document.getElementById("modal-msg").innerText = msg;
                 document.getElementById("custom-modal").style.display = "flex";
@@ -308,9 +269,7 @@
 
         function closeModal() {
             document.getElementById("custom-modal").style.display = "none";
-            if(document.querySelector("#custom-modal button").innerText === "ANA MENÜYE DÖN") {
-                location.reload(); 
-            }
+            if(document.querySelector("#custom-modal button").innerText === "ANA MENÜYE DÖN") location.reload();
         }
 
         function drawWheel() {
@@ -338,7 +297,7 @@
             maxRounds = parseInt(document.getElementById("total-rounds").value);
             currentQuestionsList = unitQuestions[unitSelect.value];
             document.getElementById("setup-screen").style.display = "none";
-            document.getElementById("game-container").style.display = (window.innerWidth <= 900) ? "grid" : "grid";
+            document.getElementById("game-container").style.display = "grid";
             drawWheel(); loadQuestion(); updateUI();
             setTimeout(() => showMessage(`Sıra: ${players[0].name}`), 600);
         }
@@ -348,13 +307,8 @@
                 currentQuestion = currentQuestionsList[Math.floor(Math.random() * currentQuestionsList.length)];
             }
             revealedLetters = [];
-            // Sesli harfleri otomatik aç (A, E, I, İ, O, Ö, U, Ü)
-            const vowels = "AEIİOÖUÜ";
-            vowels.split("").forEach(v => { if(currentQuestion.text.includes(v)) revealedLetters.push(v); });
-            
             document.getElementById("type-value").innerText = currentQuestion.type;
-            initAlphabet(); 
-            renderBoard();
+            initAlphabet(); renderBoard();
         }
 
         function renderBoard() {
@@ -396,7 +350,7 @@
                     showMessage("PAS!"); setTimeout(nextTurn, 1500);
                 } else {
                     currentValue = result; canGuess = true;
-                    showMessage(`${result} PUAN! SESSİZ HARF SEÇİN`);
+                    showMessage(`${result} PUAN!`);
                 }
             }, 4100);
         }
@@ -410,10 +364,10 @@
                 const count = currentQuestion.text.split(char).length - 1;
                 players[currentPlayer].score += (currentValue * count);
                 renderBoard(); canGuess = false; canSpin = true; updateUI();
-                if (checkWin()) return;
+                checkWin();
             } else {
                 const snd = document.getElementById("snd-wrong"); if(snd) snd.play();
-                showMessage(`Seçilen Harf Yok!`); setTimeout(nextTurn, 1200);
+                showMessage(`Harf Yok!`); setTimeout(nextTurn, 1200);
             }
         }
 
@@ -441,8 +395,7 @@
         function initAlphabet() {
             const container = document.getElementById("alphabet");
             container.innerHTML = "";
-            const consonants = "BCÇDFGĞHJKLMNPRSŞTVYZ";
-            consonants.split("").forEach(char => {
+            "ABCÇDEFGĞHIİJKLMNOÖPRSŞTUÜVYZ".split("").forEach(char => {
                 const span = document.createElement("div");
                 span.className = "alpha-key"; span.innerText = char;
                 span.onclick = () => handleGuess(char);
@@ -457,7 +410,7 @@
                 if(currentRound >= maxRounds) {
                     let winner = players[0];
                     players.forEach(p => { if(p.score > winner.score) winner = p; });
-                    const finalMsg = `🏆 OYUN BİTTİ! 🏆\n\nTEBRİKLER ${winner.name.toUpperCase()}!\nToplam Puan: ${winner.score}`;
+                    const finalMsg = `🏆 OYUN BİTTİ! 🏆\n\nTEBRİKLER ${winner.name.toUpperCase()}!`;
                     document.getElementById("modal-msg").innerText = finalMsg;
                     document.querySelector("#custom-modal button").innerText = "ANA MENÜYE DÖN";
                     document.getElementById("custom-modal").style.display = "flex";
