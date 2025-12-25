@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Çark-ı Felsefe</title>
     <style>
         :root {
@@ -22,7 +22,9 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            width: 100vw;
             overflow: hidden;
+            position: fixed;
         }
 
         #custom-modal {
@@ -30,177 +32,160 @@
             position: fixed;
             inset: 0;
             background: var(--modal-bg);
-            z-index: 1000;
+            z-index: 2000;
             justify-content: center;
             align-items: center;
         }
 
         #modal-content {
             background: var(--panel-color);
-            padding: 40px;
+            padding: 20px;
             border-radius: 20px;
             border: 3px solid var(--accent-color);
             text-align: center;
-            max-width: 450px;
+            max-width: 80%;
             box-shadow: 0 0 50px var(--accent-color);
         }
 
-        #modal-msg { font-size: 1.5rem; margin-bottom: 25px; font-weight: bold; white-space: pre-line; }
+        #modal-msg { font-size: 1.2rem; margin-bottom: 20px; font-weight: bold; white-space: pre-line; }
 
         #setup-screen {
             position: fixed;
             inset: 0;
             background: radial-gradient(circle, #16213e, #1a1a2e);
-            z-index: 100;
+            z-index: 1000;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            gap: 15px;
+            gap: 10px;
+            padding: 20px;
         }
 
         .input-group { display: flex; flex-direction: column; align-items: center; width: 100%; }
         input, select { 
-            padding: 12px; border-radius: 8px; border: 2px solid #333; 
-            width: 320px; font-size: 1rem; background: white; color: #333;
+            padding: 10px; border-radius: 8px; border: 2px solid #333; 
+            width: 280px; font-size: 0.9rem; background: white; color: #333;
         }
         
-        button { padding: 15px 30px; cursor: pointer; background: var(--accent-color); color: white; border: none; border-radius: 8px; font-weight: bold; font-size: 1.1rem; }
+        button { padding: 12px 25px; cursor: pointer; background: var(--accent-color); color: white; border: none; border-radius: 8px; font-weight: bold; font-size: 1rem; }
 
         #game-container {
             display: none;
-            width: 100%;
+            width: 100vw;
             height: 100vh;
-            padding: 0 300px;
+            padding: 10px;
             box-sizing: border-box;
-            grid-template-columns: 650px 1fr; 
-            gap: 300px; 
+            grid-template-columns: 1fr 1.2fr; 
+            gap: 20px; 
             align-items: center;
             justify-content: center;
         }
 
-        .wheel-section { display: flex; flex-direction: column; align-items: center; position: relative; }
-        #wheel-canvas { width: 650px; height: 650px; border-radius: 50%; border: 15px solid #333; box-shadow: 0 0 40px rgba(0,0,0,0.8); }
-        #pointer { position: absolute; top: -30px; z-index: 100; width: 50px; fill: #ffd700; transform: rotate(180deg); }
+        .wheel-section { display: flex; flex-direction: column; align-items: center; position: relative; height: 100%; justify-content: center; }
+        #wheel-canvas { width: 85vh; height: 85vh; max-width: 450px; max-height: 450px; border-radius: 50%; border: 10px solid #333; box-shadow: 0 0 30px rgba(0,0,0,0.8); }
+        #pointer { position: absolute; top: 10%; z-index: 100; width: 40px; fill: #ffd700; transform: rotate(180deg); }
 
-        .display-section { display: flex; flex-direction: column; gap: 20px; width: 100%; }
+        .display-section { display: flex; flex-direction: column; gap: 10px; width: 100%; height: 95vh; overflow-y: auto; padding-right: 5px; }
 
         #unit-display {
             background: #16213e;
             color: #ffd700;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.9rem;
+            padding: 3px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
             font-weight: bold;
-            display: inline-block;
-            margin-bottom: 10px;
             border: 1px solid #ffd700;
         }
 
         #game-status-box {
             background: linear-gradient(45deg, #e94560, #a21b3c);
             color: white;
-            padding: 20px;
-            border-radius: 12px;
+            padding: 10px;
+            border-radius: 10px;
             text-align: center;
             font-weight: 900;
-            font-size: 1.4rem;
-            min-height: 40px;
-            box-shadow: 0 0 20px rgba(233, 69, 96, 0.5);
-            border: 3px solid rgba(255,255,255,0.3);
-            margin-bottom: 15px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-            letter-spacing: 1px;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-            100% { transform: scale(1); }
+            font-size: 1.1rem;
+            box-shadow: 0 0 15px rgba(233, 69, 96, 0.4);
+            border: 2px solid rgba(255,255,255,0.3);
         }
 
         #category-info { 
             background: #0f3460; 
-            padding: 20px; 
-            border-radius: 12px; 
+            padding: 10px; 
+            border-radius: 10px; 
             text-align: center; 
-            font-size: 1.8rem; 
-            border-left: 10px solid var(--accent-color);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            font-size: 1.2rem; 
+            border-left: 6px solid var(--accent-color);
         }
         
-        #type-label { color: #8892b0; font-size: 1rem; display: block; margin-bottom: 5px; font-weight: bold; letter-spacing: 2px;}
-        #type-value { color: var(--accent-color); font-weight: 900; text-transform: uppercase; }
+        #type-label { color: #8892b0; font-size: 0.8rem; display: block; font-weight: bold; letter-spacing: 1px;}
+        #type-value { color: var(--accent-color); font-weight: 900; text-transform: uppercase; font-size: 1.1rem; }
 
         #puzzle-board {
-            background: #16213e; padding: 30px; border-radius: 15px;
+            background: #16213e; padding: 15px; border-radius: 10px;
             display: flex; flex-wrap: wrap; justify-content: center;
-            gap: 15px; min-height: 200px; align-content: center;
+            gap: 8px; min-height: 100px; align-content: center;
         }
 
-        .word-group { display: flex; gap: 8px; white-space: nowrap; margin-bottom: 15px; }
+        .word-group { display: flex; gap: 5px; white-space: nowrap; margin-bottom: 8px; }
 
         .letter-box {
-            width: 50px; height: 65px; background: #fff; color: #000;
+            width: 30px; height: 40px; background: #fff; color: #000;
             display: flex; justify-content: center; align-items: center;
-            font-size: 2.2rem; font-weight: bold; border-radius: 6px;
+            font-size: 1.4rem; font-weight: bold; border-radius: 4px;
             visibility: hidden;
         }
         .letter-box.revealed { visibility: visible; animation: flip 0.6s; }
-        .letter-box.hidden { visibility: visible; background: #2c3e50; color: transparent; border: 2px solid #444; }
+        .letter-box.hidden { visibility: visible; background: #2c3e50; color: transparent; border: 1px solid #444; }
 
-        @keyframes flip { from { transform: rotateY(90deg); } to { transform: rotateY(0); } }
-
-        #alphabet { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
-        .alpha-key { padding: 12px 18px; background: #533483; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 1.1rem; }
+        #alphabet { display: flex; flex-wrap: wrap; gap: 4px; justify-content: center; }
+        .alpha-key { padding: 6px 10px; background: #533483; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 0.8rem; }
         .alpha-key.used { background: #111; color: #444; pointer-events: none; opacity: 0.5; }
 
         .guess-area {
-            display: flex; justify-content: center; gap: 10px; 
-            padding: 15px; background: rgba(255,255,255,0.05); border-radius: 10px;
+            display: flex; justify-content: center; gap: 5px; 
+            padding: 8px; background: rgba(255,255,255,0.05); border-radius: 8px;
         }
-        .guess-area input { flex: 1; max-width: 400px; padding: 12px; border-radius: 5px; border: none; font-size: 1.1rem; }
+        .guess-area input { flex: 1; padding: 8px; border-radius: 5px; border: none; font-size: 0.9rem; width: 100px; }
 
-        #players-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
-        .player-card { background: var(--panel-color); padding: 15px; border-radius: 12px; text-align: center; border-bottom: 5px solid transparent; }
-        .player-card.active { border-color: var(--accent-color); background: #1f2d52; transform: scale(1.05); transition: 0.3s; }
-        .score { font-size: 2rem; color: #ffd700; font-weight: bold; }
+        #players-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+        .player-card { background: var(--panel-color); padding: 8px; border-radius: 10px; text-align: center; border-bottom: 3px solid transparent; }
+        .player-card.active { border-color: var(--accent-color); background: #1f2d52; transform: scale(1.02); }
+        .player-card div:first-child { font-size: 0.7rem; }
+        .score { font-size: 1.2rem; color: #ffd700; font-weight: bold; }
         
         .footer-credit {
             position: absolute;
-            bottom: 20px;
-            font-size: 0.85rem;
+            bottom: 5px;
+            font-size: 0.6rem;
             color: rgba(255, 255, 255, 0.3);
-            letter-spacing: 2px;
-            font-weight: 300;
             text-transform: uppercase;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 10px;
-            width: auto;
-            white-space: nowrap;
             left: 50%;
             transform: translateX(-50%);
         }
-          @media (max-width: 1023px) {
-      .philosophical-bg { display: flex; align-items: center; justify-content: center; overflow: hidden; }
-      .master-container {
-        display: block !important;
-        position: relative !important;
-        transform: rotate(90deg) !important;
-        transform-origin: center center !important;
-        width: 100vh !important;
-        height: 100vw !important;
-      }
-      .philosophical-title { font-size: 18px; margin-bottom: 5px; }
-      .control-panel { width: 160px; padding: 10px; gap: 10px; }
-      .btn-action { padding: 8px; font-size: 12px; }
-      .dice-box { width: 50px; height: 50px; font-size: 24px; }
-      #turnLabel { font-size: 14px; }
-      #paradigmLabel { font-size: 12px; }
-      #msgBox { transform: translate(-50%, -50%) rotate(90deg); width: 80vh; max-height: 80vw; }
-      #customRulesModal .modal-content { transform: rotate(90deg); max-height: 80vw; }
-    }
+
+        /* Mobil Yatay Mod Optimizasyonu */
+        @media screen and (max-height: 500px) {
+            #wheel-canvas { width: 70vh; height: 70vh; }
+            #setup-screen h1 { font-size: 2rem !important; margin: 5px !important; }
+            .input-group input, .input-group select { padding: 5px; width: 220px; font-size: 0.8rem; }
+            button { padding: 8px 15px; font-size: 0.8rem; }
+            #puzzle-board { padding: 10px; }
+            .letter-box { width: 25px; height: 32px; font-size: 1.1rem; }
+        }
+
+        /* Dikey modda uyarı veya otomatik döndürme simülasyonu CSS ile zorlanamaz ama düzeni korur */
+        @media screen and (orientation: portrait) {
+            #game-container {
+                display: flex !important;
+                flex-direction: column !important;
+                overflow-y: auto;
+            }
+            #wheel-canvas { width: 80vw; height: 80vw; }
+            .display-section { height: auto; overflow: visible; }
+        }
+
     </style>
 </head>
 <body>
@@ -213,7 +198,7 @@
     </div>
 
     <div id="setup-screen">
-        <h1 style="font-size: 4rem; color: var(--accent-color); margin-bottom: 20px;">Çark-ı Felsefe</h1>
+        <h1 style="font-size: 3rem; color: var(--accent-color); margin-bottom: 10px; text-align: center;">Çark-ı Felsefe</h1>
         <div class="input-group"><input type="text" id="p1" placeholder="1. Yarışmacı" value="Farabi"></div>
         <div class="input-group"><input type="text" id="p2" placeholder="2. Yarışmacı" value="İbn Sina"></div>
         <div class="input-group"><input type="text" id="p3" placeholder="3. Yarışmacı" value="Gazali"></div>
@@ -244,7 +229,7 @@
         <div class="wheel-section">
             <svg id="pointer" viewBox="0 0 100 100"><path d="M50 0 L100 100 L0 100 Z"/></svg>
             <canvas id="wheel-canvas" width="650" height="650"></canvas>
-            <button id="spin-btn" style="margin-top:25px; padding: 15px 70px;" onclick="spinWheel()">ÇARKI ÇEVİR</button>
+            <button id="spin-btn" style="margin-top:15px; width: 80%;" onclick="spinWheel()">ÇEVİR</button>
         </div>
 
         <div class="display-section">
@@ -260,7 +245,7 @@
             <div id="alphabet"></div>
             <div class="guess-area">
                 <input type="text" id="solve-input" placeholder="Kelime Tahmini...">
-                <button onclick="solvePuzzle()">TAHMİN ET</button>
+                <button onclick="solvePuzzle()">TAHMİN</button>
             </div>
             <div id="players-row">
                 <div class="player-card" id="card-0"><div id="name-0"></div><div class="score" id="score-0">0</div></div>
@@ -344,11 +329,9 @@
         }
 
         function loadQuestion() {
-            // Soruları her seçimde tamamen rastgele hale getirmek için karıştırma işlemi
             if (currentQuestionsList.length > 0) {
                 currentQuestion = currentQuestionsList[Math.floor(Math.random() * currentQuestionsList.length)];
             }
-            
             revealedLetters = [];
             document.getElementById("type-value").innerText = currentQuestion.type;
             initAlphabet(); 
@@ -477,4 +460,3 @@
     </script>
 </body>
 </html>
-
