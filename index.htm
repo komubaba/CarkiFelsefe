@@ -339,17 +339,17 @@
         let revealedLetters = [], currentRound = 1, maxRounds = 3, canSpin = true, canGuess = false, currentQuestionsList = [];
 
         function showMessage(msg) {
-            const statusBox = document.getElementById("game-status-box");
-            if (statusBox) {
-                statusBox.innerText = msg;
-                statusBox.style.backgroundColor = "#ff4d4d"; 
-                setTimeout(() => { statusBox.style.backgroundColor = "#e94560"; }, 500);
-            }
-            if (msg.includes("BİTTİ") || msg.includes("KAZANAN")) {
-                document.getElementById("modal-msg").innerText = msg;
-                document.getElementById("custom-modal").style.display = "flex";
-            }
-        }
+    const statusBox = document.getElementById("game-status-box");
+    if (statusBox) {
+        statusBox.innerText = msg; // Bilgiyi üstteki kutuya yazar
+    }
+
+    // Ekrana büyük pencerenin ("TAMAM" butonuyla) sadece oyun bitince gelmesini sağlar
+    if (msg.includes("BİTTİ") || msg.includes("KAZANAN")) {
+        document.getElementById("modal-msg").innerText = msg;
+        document.getElementById("custom-modal").style.display = "flex";
+    }
+}
 
         function closeModal() {
             document.getElementById("custom-modal").style.display = "none";
@@ -521,5 +521,6 @@
     </script>
 </body>
 </html>
+
 
 
