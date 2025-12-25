@@ -183,13 +183,14 @@
             transform: translateX(-50%);
         }
 
-   @media screen and (max-width: 900px) {
+ @media screen and (max-width: 900px) {
     body { overflow: hidden; position: fixed; width: 100%; height: 100%; }
 
     #game-container {
-        display: block !important; /* Grid'i iptal ettik */
+        display: block !important;
         position: fixed;
-        width: 100vh !important; /* Yan duruş için genişlik/boy takası */
+        /* Ekranın boyunu ve enini takas ediyoruz */
+        width: 100vh !important; 
         height: 100vw !important;
         top: 50%;
         left: 50%;
@@ -199,70 +200,42 @@
         padding: 0 !important;
     }
 
-    /* --- 1. ÇARK AYARLARI (ÜST KISIM) --- */
+    /* --- SOL TARAF: ÇARK --- */
     .wheel-section {
         position: absolute;
-        top: 5%;             /* Ekranın en tepesinden uzaklık */
-        left: 50%;
-        transform: translateX(-50%) scale(0.6); /* Çarkı buradan küçültün (0.5 yaparsanız daha da küçülür) */
-        width: 100%;
+        left: 5%;            /* Soldan uzaklık */
+        top: 50%;            /* Dikeyde ortala */
+        transform: translateY(-50%) scale(0.65); /* ÇARK BOYUTU: 0.65'i değiştirerek ayarlayabilirsin */
+        width: 400px;
         display: flex;
         flex-direction: column;
         align-items: center;
     }
 
-    #wheel-canvas { 
-        width: 300px !important; 
-        height: 300px !important; 
-    }
+    #wheel-canvas { width: 350px !important; height: 350px !important; }
 
-    /* --- 2. PANEL AYARLARI (ALT KISIM) --- */
+    /* --- SAĞ TARAF: PANEL (KLAVYE VE PUANLAR) --- */
     .display-section {
         position: absolute;
-        bottom: 5%;          /* Ekranın en altından uzaklık */
-        left: 50%;
-        transform: translateX(-50%) scale(0.7); /* Paneli buradan küçültün (0.6 yaparsanız daha çok yer açılır) */
-        width: 95%;
+        right: 2%;           /* Sağdan uzaklık */
+        top: 50%;            /* Dikeyde ortala */
+        transform: translateY(-50%) scale(0.65); /* PANEL BOYUTU: 0.65'i değiştirerek ayarlayabilirsin */
+        width: 55%;          /* Ekranın sağ yarısını kaplar */
         display: flex;
         flex-direction: column;
-        gap: 10px !important;
+        gap: 8px !important;
     }
 
-    /* --- 3. MOBİL İNCE AYARLAR (TAŞMAYI ÖNLER) --- */
-    #puzzle-board { 
-        min-height: 80px !important; 
-        padding: 10px !important;
-    }
-    
-    .letter-box { 
-        width: 25px !important; 
-        height: 35px !important; 
-        font-size: 1rem !important; 
-    }
-
-    #alphabet { 
-        gap: 4px !important; 
-        max-width: 90%; 
-        margin: 0 auto;
-    }
-    
-    .alpha-key { 
-        padding: 5px 8px !important; 
-        font-size: 0.8rem !important; 
-    }
-
-    #players-row { 
-        display: flex !important;
-        justify-content: center;
-        gap: 10px !important; 
-    }
-
-    .player-card { flex: 1; padding: 5px !important; }
-    
-    /* Gereksiz büyük boşlukları temizleyelim */
-    #game-status-box { font-size: 1rem !important; margin: 0 !important; }
-    #category-info { font-size: 1.1rem !important; padding: 10px !important; }
-    #unit-display { font-size: 0.8rem !important; }
+    /* --- DİĞER KÜÇÜLTME AYARLARI --- */
+    #puzzle-board { padding: 10px !important; min-height: 90px !important; }
+    .letter-box { width: 22px !important; height: 32px !important; font-size: 0.9rem !important; }
+    #alphabet { gap: 3px !important; }
+    .alpha-key { padding: 5px 8px !important; font-size: 0.7rem !important; }
+    #players-row { gap: 5px !important; margin-top: 5px; }
+    .player-card { padding: 5px !important; }
+    .score { font-size: 1rem !important; }
+    #game-status-box { font-size: 0.9rem !important; padding: 10px !important; }
+    #category-info { font-size: 1rem !important; padding: 10px !important; }
     .footer-credit { display: none; }
 }
     </style>
@@ -541,6 +514,7 @@
     </script>
 </body>
 </html>
+
 
 
 
