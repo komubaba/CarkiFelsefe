@@ -183,76 +183,86 @@
             transform: translateX(-50%);
         }
 
-    @media screen and (max-width: 900px) {
+   @media screen and (max-width: 900px) {
     body { overflow: hidden; position: fixed; width: 100%; height: 100%; }
 
     #game-container {
-        display: block !important; /* Grid yerine serbest yerleşim */
+        display: block !important; /* Grid'i iptal ettik */
         position: fixed;
-        width: 100vh !important;
+        width: 100vh !important; /* Yan duruş için genişlik/boy takası */
         height: 100vw !important;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%) rotate(90deg);
         background: var(--bg-color);
+        margin: 0 !important;
+        padding: 0 !important;
     }
 
-    /* --- 1. ÇARKIN KONUMU (ÜST KISIM) --- */
+    /* --- 1. ÇARK AYARLARI (ÜST KISIM) --- */
     .wheel-section {
         position: absolute;
-        top: 2%;            /* Yukarıdan boşluk (Değiştirebilirsin) */
+        top: 5%;             /* Ekranın en tepesinden uzaklık */
         left: 50%;
-        transform: translateX(-50%) scale(0.65); /* Çarkı buradan küçült/büyüt */
+        transform: translateX(-50%) scale(0.6); /* Çarkı buradan küçültün (0.5 yaparsanız daha da küçülür) */
         width: 100%;
-        height: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
     #wheel-canvas { 
-        width: 320px !important; 
-        height: 320px !important; 
+        width: 300px !important; 
+        height: 300px !important; 
     }
 
-    /* --- 2. PANELİN KONUMU (ALT KISIM) --- */
+    /* --- 2. PANEL AYARLARI (ALT KISIM) --- */
     .display-section {
         position: absolute;
-        bottom: 2%;         /* Alttan boşluk (Değiştirebilirsin) */
+        bottom: 5%;          /* Ekranın en altından uzaklık */
         left: 50%;
-        transform: translateX(-50%) scale(0.75); /* Paneli buradan küçült/büyüt */
-        width: 95%;         /* Panelin genişliği */
-        gap: 5px !important;
+        transform: translateX(-50%) scale(0.7); /* Paneli buradan küçültün (0.6 yaparsanız daha çok yer açılır) */
+        width: 95%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px !important;
     }
 
-    /* --- 3. SIKIŞTIRMA AYARLARI (TAŞMAYI ÖNLER) --- */
+    /* --- 3. MOBİL İNCE AYARLAR (TAŞMAYI ÖNLER) --- */
     #puzzle-board { 
-        padding: 10px !important; 
         min-height: 80px !important; 
-        gap: 5px !important;
+        padding: 10px !important;
     }
     
     .letter-box { 
-        width: 24px !important; 
-        height: 32px !important; 
-        font-size: 0.9rem !important; 
+        width: 25px !important; 
+        height: 35px !important; 
+        font-size: 1rem !important; 
     }
 
-    #alphabet { gap: 4px !important; }
+    #alphabet { 
+        gap: 4px !important; 
+        max-width: 90%; 
+        margin: 0 auto;
+    }
     
     .alpha-key { 
         padding: 5px 8px !important; 
-        font-size: 0.75rem !important; 
+        font-size: 0.8rem !important; 
     }
 
     #players-row { 
-        margin-top: 5px;
-        gap: 5px !important; 
+        display: flex !important;
+        justify-content: center;
+        gap: 10px !important; 
     }
 
-    .player-card { padding: 5px !important; }
-    .score { font-size: 1rem !important; }
-    #game-status-box { font-size: 0.9rem !important; padding: 8px !important; margin-bottom: 5px; }
-    #category-info { font-size: 1rem !important; padding: 8px !important; }
-    #spin-btn { margin-top: 5px !important; }
-    .guess-area { margin-top: 5px; }
+    .player-card { flex: 1; padding: 5px !important; }
+    
+    /* Gereksiz büyük boşlukları temizleyelim */
+    #game-status-box { font-size: 1rem !important; margin: 0 !important; }
+    #category-info { font-size: 1.1rem !important; padding: 10px !important; }
+    #unit-display { font-size: 0.8rem !important; }
     .footer-credit { display: none; }
 }
     </style>
@@ -531,6 +541,7 @@
     </script>
 </body>
 </html>
+
 
 
 
