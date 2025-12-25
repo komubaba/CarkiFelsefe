@@ -145,58 +145,70 @@
         .player-card.active { border-color: var(--accent-color); background: #1f2d52; }
         .score { font-size: 1.2rem; color: #ffd700; font-weight: bold; }
 
-      @media screen and (max-height: 500px) {
-    /* Oyun alanını yukarıya doğru optimize et */
+      Haklısın, mobil ayarlarını yaparken ana sayfa (giriş ekranı) ile oyun sayfasını birbirinden ayırmadığımız için giriş kutuları çok fazla daralmış. Şimdi ikisini kesin çizgilerle birbirinden ayırıyorum: Ana sayfa dik/yatay fark etmeksizin okunabilir kalacak, oyun sayfası ise yatay ekranda tam sığacak.
+
+Aşağıdaki CSS bloğunu mevcut <style> etiketinin içindeki tüm @media kodlarıyla değiştirirsen her iki ekran da kendi içinde düzelecektir:
+
+CSS
+
+/* --- GENEL MOBİL AYARLARI --- */
+@media screen and (max-width: 900px) {
+    /* Giriş Ekranı (Dikey ve Yatayda Okunabilir) */
+    #setup-screen {
+        padding: 20px !important;
+        gap: 12px !important;
+        overflow-y: auto !important;
+    }
+    #setup-screen h1 { font-size: 2rem !important; margin-bottom: 10px !important; }
+    #setup-screen .input-group { width: 90% !important; }
+    #setup-screen input, #setup-screen select { 
+        width: 100% !important; 
+        max-width: 300px;
+        padding: 12px !important; 
+    }
+}
+
+/* --- SADECE OYUN EKRANI İÇİN (Yatay Mod) --- */
+@media screen and (max-height: 500px) and (min-width: 500px) {
     #game-container {
-        grid-template-columns: 260px 1fr !important;
-        padding: 5px 15px !important;
+        display: grid !important;
+        grid-template-columns: 260px 1fr !important; /* Çark ve Panel ayrımı */
+        padding: 10px !important;
         gap: 15px !important;
+        height: 100vh !important;
     }
 
-    /* Çark boyutunu ekran yüksekliğine göre sabitle */
-    #wheel-canvas { 
-        width: 240px !important; 
-        height: 240px !important; 
-    }
+    /* Çarkı küçült ama net kalsın */
+    .wheel-section { width: 250px !important; }
+    #wheel-canvas { width: 230px !important; height: 230px !important; }
+    #spin-btn { padding: 8px 20px !important; margin-top: 10px !important; font-size: 0.9rem !important; }
 
-    /* Sağ paneldeki öğeleri küçülterek sığdır */
+    /* Oyun Paneli (Sağ Taraf) */
     .display-section { 
-        gap: 4px !important; 
-        justify-content: flex-start !important;
+        gap: 5px !important; 
+        justify-content: flex-start !important; 
     }
 
-    #game-status-box { padding: 6px !important; font-size: 0.9rem !important; margin: 0 !important; }
-    #category-info { padding: 5px !important; }
+    #game-status-box { padding: 6px !important; font-size: 0.9rem !important; }
+    #category-info { padding: 4px !important; }
     #type-value { font-size: 1rem !important; }
 
-    /* Harf kutularını küçült */
-    .letter-box { 
-        width: 22px !important; 
-        height: 30px !important; 
-        font-size: 0.9rem !important; 
-    }
+    /* Harf kutuları ve Klavye */
+    .letter-box { width: 24px !important; height: 34px !important; font-size: 1rem !important; }
+    #alphabet { gap: 4px !important; }
+    .alpha-key { padding: 4px 8px !important; font-size: 0.75rem !important; }
 
-    /* Klavyeyi daha toplu hale getir */
-    #alphabet { 
-        gap: 3px !important; 
-        max-width: 100%;
-    }
-    .alpha-key { 
-        padding: 4px 6px !important; 
-        font-size: 0.7rem !important; 
-        min-width: 20px;
-        text-align: center;
-    }
+    /* Tahmin ve Skorlar */
+    .guess-area input { padding: 6px !important; font-size: 0.9rem !important; }
+    #players-row { gap: 6px !important; }
+    .player-card { padding: 5px !important; }
+    .score { font-size: 1rem !important; }
+}
 
-    /* Tahmin alanını daralt */
-    .guess-area { margin-top: 2px !important; }
-    .guess-area input { padding: 5px !important; font-size: 0.8rem !important; }
-    .guess-area button { padding: 5px 10px !important; font-size: 0.8rem !important; }
-
-    /* En alttaki oyuncu kartlarını küçült */
-    #players-row { gap: 5px !important; }
-    .player-card { padding: 4px !important; font-size: 0.7rem !important; }
-    .score { font-size: 0.9rem !important; }
+/* --- DİKEY TUTUŞ UYARISI --- */
+@media screen and (max-width: 600px) and (orientation: portrait) {
+    #rotate-warning { display: flex !important; }
+    #setup-screen, #game-container { display: none !important; }
 }
     </style>
 </head>
@@ -438,5 +450,6 @@
     </script>
 </body>
 </html>
+
 
 
