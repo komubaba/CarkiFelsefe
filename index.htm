@@ -182,29 +182,25 @@
             left: 50%;
             transform: translateX(-50%);
         }
-
-        @media screen and (max-width: 600px) and (orientation: portrait) {
-            body { overflow: hidden; }
-            #game-container {
-                display: grid !important;
-                transform: rotate(90deg);
-                transform-origin: center;
-                width: 100vh !important;
-                height: 100vw !important;
-                position: fixed;
-                top: 50%;
-                left: 50%;
-                margin-top: -50vw;
-                margin-left: -50vh;
-                grid-template-columns: 320px 1fr !important;
-                gap: 20px !important;
-                padding: 10px !important;
-            }
-            #wheel-canvas { width: 300px !important; height: 300px !important; }
-            .letter-box { width: 25px !important; height: 35px !important; font-size: 1rem !important; }
-            .alpha-key { padding: 5px 7px !important; font-size: 0.7rem !important; }
-            #setup-screen { transform: rotate(90deg); width: 100vh; height: 100vw; }
-        }
+          @media (max-width: 1023px) {
+      .philosophical-bg { display: flex; align-items: center; justify-content: center; overflow: hidden; }
+      .master-container {
+        display: block !important;
+        position: relative !important;
+        transform: rotate(90deg) !important;
+        transform-origin: center center !important;
+        width: 100vh !important;
+        height: 100vw !important;
+      }
+      .philosophical-title { font-size: 18px; margin-bottom: 5px; }
+      .control-panel { width: 160px; padding: 10px; gap: 10px; }
+      .btn-action { padding: 8px; font-size: 12px; }
+      .dice-box { width: 50px; height: 50px; font-size: 24px; }
+      #turnLabel { font-size: 14px; }
+      #paradigmLabel { font-size: 12px; }
+      #msgBox { transform: translate(-50%, -50%) rotate(90deg); width: 80vh; max-height: 80vw; }
+      #customRulesModal .modal-content { transform: rotate(90deg); max-height: 80vw; }
+    }
     </style>
 </head>
 <body>
@@ -481,3 +477,4 @@
     </script>
 </body>
 </html>
+
